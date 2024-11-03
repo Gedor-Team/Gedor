@@ -9,7 +9,7 @@ Original file is located at
 
 #@title Twitter Auth Token
 
-twitter_auth_token = 'e140bfb1b014355240fc77e4b0f9723f8540b9a7' # change this auth token
+twitter_auth_token = '00000' # change this auth token
 
 # Import required Python package
 !pip install pandas
