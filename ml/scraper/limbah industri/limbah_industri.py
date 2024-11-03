@@ -31,7 +31,7 @@ twitter_auth_token = '00000' # change this auth token
 
 filename = 'limbahindustri.csv'
 search_keyword = 'limbah industri lang:id'
-limit = 100
+limit = 1000
 
 !npx -y tweet-harvest@2.6.1 -o "{filename}" -s "{search_keyword}" --tab "LATEST" -l {limit} --token {twitter_auth_token}
 
