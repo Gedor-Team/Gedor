@@ -7,79 +7,100 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 import time
+import csv
+# Define an empty list to store URLs
+urls = []
 
-# Set up the Selenium WebDriver
-driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+# Open the file and read each line
+with open('url.txt', 'r') as file:
+    # Read each line, strip any extra whitespace, and append to the list
+    urls = [line.strip() for line in file if line.strip()]
 
-# URL of the webpage to scrape
-url = "https://www.google.com/maps/place/Dinas+Lingkungan+Hidup+Kabupaten+Sleman/@-7.7194201,110.352458,17z/data=!3m1!4b1!4m6!3m5!1s0x2e7a58c9f80c4591:0x2283005264f518b2!8m2!3d-7.7194201!4d110.3550329!16s%2Fg%2F1pzvnkc0y?entry=ttu&g_ep=EgoyMDI0MTAyOS4wIKXMDSoASAFQAw%3D%3D"
+for url in urls:
+    # Set up the Selenium WebDriver
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    # Navigate to the page
+    driver.get(url)
 
-# Navigate to the page
-driver.get(url)
+    # Wait for a few seconds to allow JavaScript to load
+    time.sleep(10)  # Adjust based on the content loading time
 
-# Wait for a few seconds to allow JavaScript to load
-time.sleep(5)  # Adjust based on the content loading time
+    # Click the initial button with data-tab-index 1
+    initial_button = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//button[contains(@data-tab-index, '1')]"))
+    )
+    initial_button.click()
+    time.sleep(1)  # Wait a moment after clicking
 
-# Click the initial button with data-tab-index 1
-initial_button = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.XPATH, "//button[contains(@data-tab-index, '1')]"))
-)
-initial_button.click()
-time.sleep(1)  # Wait a moment after clicking
+    # Find the first "Informasi" button and click it
+    info_button = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//button[contains(@aria-label, 'Informasi')]"))
+    )
+    driver.execute_script("arguments[0].scrollIntoView();", info_button)  # Scroll to ensure visibility
+    info_button.click()
+    time.sleep(2)
 
-# Find the first "Semua ulasan" button and click it
-review_button = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.XPATH, "//button[contains(@aria-label, 'Semua ulasan')]"))
-)
-driver.execute_script("arguments[0].scrollIntoView();", review_button)  # Scroll to ensure visibility
-review_button.click()
-time.sleep(2)
+    # Function to click on "Lihat lainnya" buttons if present
+    def click_see_more_buttons():
+        try:
+            buttons = driver.find_elements(By.XPATH, "//button[contains(@aria-label, 'Lihat lainnya')]")
+            for button in buttons:
+                driver.execute_script("arguments[0].scrollIntoView();", button)  # Ensure the button is in view
+                time.sleep(2)  # Wait for the button to be in view
+                button.click()  # Click the button
+                time.sleep(2)  # Wait a moment after clicking
+        except Exception as e:
+            print(f"Error clicking 'Lihat lainnya': {e}")
 
-# Function to click on "Lihat lainnya" buttons if present
-def click_see_more_buttons():
-    try:
-        buttons = driver.find_elements(By.XPATH, "//button[contains(@aria-label, 'Lihat lainnya')]")
-        for button in buttons:
-            driver.execute_script("arguments[0].scrollIntoView();", button)  # Ensure the button is in view
-            time.sleep(0.5)  # Wait for the button to be in view
-            button.click()  # Click the button
-            time.sleep(2)  # Wait a moment after clicking
-    except Exception as e:
-        print(f"Error clicking 'Lihat lainnya': {e}")
+    # Scroll the page and click "Lihat lainnya" buttons as necessary
+    for _ in range(100):  # Adjust the range if necessary
+        # Scroll down using PAGE_DOWN
+        html = driver.find_element(By.TAG_NAME, 'html')
+        html.send_keys(Keys.PAGE_DOWN)
+        time.sleep(1)  # Wait to load more content
 
-# Scroll the page and click "Lihat lainnya" buttons as necessary
-for _ in range(100):  # Adjust the range if necessary
-    # Scroll down using PAGE_DOWN
-    html = driver.find_element(By.TAG_NAME, 'html')
-    html.send_keys(Keys.PAGE_DOWN)
-    time.sleep(1)  # Wait to load more content
+    click_see_more_buttons()
 
-click_see_more_buttons()
-    
+    # After scrolling, retrieve the updated page source
+    html = driver.page_source
 
-# After scrolling, retrieve the updated page source
-html = driver.page_source
+    # Parse the updated HTML content using BeautifulSoup
+    soup = BeautifulSoup(html, 'html.parser')
 
-# Parse the updated HTML content using BeautifulSoup
-soup = BeautifulSoup(html, 'html.parser')
+    # Now you can select spans or any other elements you want
+    divs = soup.select('span')
 
-# Now you can select spans or any other elements you want
-divs = soup.select('span')
+    # Write the text content of selected divs to a CSV file
+    with open('complaints.csv', 'a', encoding='utf-8', newline='') as file:
+        writer = csv.writer(file)
 
-# Write the text content of selected divs to a text file
-with open('text.txt', 'a', encoding='utf-8') as file:
-    for div in divs:
-        # Get the text content and convert to lowercase
-        complaint_lines = div.get_text(strip=True).lower().splitlines()
-        
-        # Filter out empty lines and combine the remaining lines into a single string
-        complaint = '\n'.join(line for line in complaint_lines if line.strip())
-        
-        if len(complaint) > 80:
-            complaint += '\n\n'
-            file.write(complaint)
+        for div in divs:
+            # Get the text content and convert to lowercase
+            complaint_lines = div.get_text(strip=True).lower().splitlines()
+            
+            # Filter out empty lines and combine the remaining lines into a single string
+            complaint = '\n'.join(line for line in complaint_lines if line.strip())
+            category = 'others'
+            if "sampah" in complaint:
+                category="sampah"
+            elif "limbah" in complaint:
+                category="limbah"
+            elif "polusi" in complaint:
+                category="polusi"
+            elif "hutan" in complaint:
+                category="hutan"
+            elif "hewan" in complaint:
+                category="hewan"
+            elif any(word in complaint for word in ["jalan", "publik", "umum"]):
+                category="fasilitas umum"            
 
-print("All div contents written to text.txt")
 
-# Close the browser
-driver.quit()
+            if len(complaint) > 80:
+                # Write each complaint as a new row in the CSV
+                writer.writerow([complaint,category])
+                
+    print("All div contents written to complaints.csv")
+
+
+    # Close the browser
+    driver.quit()
