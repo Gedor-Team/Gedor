@@ -53,10 +53,10 @@ for url in urls:
             print(f"Error clicking 'Lihat lainnya': {e}")
 
     # Scroll the page and click "Lihat lainnya" buttons as necessary
-    for _ in range(100):  # Adjust the range if necessary
+    for _ in range(30):  # Adjust the range if necessary
         # Scroll down using PAGE_DOWN
         html = driver.find_element(By.TAG_NAME, 'html')
-        html.send_keys(Keys.PAGE_DOWN)
+        html.send_keys(Keys.END)
         time.sleep(1)  # Wait to load more content
 
     click_see_more_buttons()
@@ -81,18 +81,20 @@ for url in urls:
             # Filter out empty lines and combine the remaining lines into a single string
             complaint = '\n'.join(line for line in complaint_lines if line.strip())
             category = 'others'
-            if "sampah" in complaint:
+            if any(word in complaint for word in ["sampah", "tpa", "tps"]):
                 category="sampah"
-            elif "limbah" in complaint:
+            elif any(word in complaint for word in ["limbah", "pabrik", "bau"]):
                 category="limbah"
-            elif "polusi" in complaint:
+            elif any(word in complaint for word in ["polusi", "udara", "air", "berisik", "bising", "tercemar"]):
                 category="polusi"
-            elif "hutan" in complaint:
+            elif any(word in complaint for word in ["hutan", "pembalakan", "pohon"]):
                 category="hutan"
             elif "hewan" in complaint:
                 category="hewan"
-            elif any(word in complaint for word in ["jalan", "publik", "umum"]):
-                category="fasilitas umum"            
+            elif any(word in complaint for word in ["jalan", "publik", "umum", "toko"]):
+                category="fasilitas umum"
+            elif any(word in complaint for word in ["layanan", "servis", "galak", "kasar", "surat", "sop"]):
+                category="layanan"            
 
 
             if len(complaint) > 80:
