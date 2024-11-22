@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const bookController = require('../controller/userController'); // Asumsikan path relatif ini sesuai dengan struktur direktori Anda
+const bookController = require('../controllers/userController'); // Asumsikan path relatif ini sesuai dengan struktur direktori Anda
 
 //menambahkan user
 router.post('/', bookController.addUser);
