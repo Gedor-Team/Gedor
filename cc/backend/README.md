@@ -17,10 +17,15 @@ Download and install Node.js from the [official website](https://nodejs.org/). T
 2. **Install Nodemon**  
 ```bash
 npm install nodemon
+```
 
 3. **Install Express**
 ```bash
 npm install express
+```
 
 ## Build Steps
+
+```bash
 npm run dev
+```
