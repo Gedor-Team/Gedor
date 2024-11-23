@@ -24,6 +24,16 @@ npm install nodemon
 npm install express
 ```
 
+4. **Install MySQL**
+```bash
+npm install mysql2
+```
+
+5. **Install Sequelize**
+```bash
+npm install sequelize
+```
+
 ## Build Steps
 
 ```bash
