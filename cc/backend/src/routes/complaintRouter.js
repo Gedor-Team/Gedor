@@ -9,18 +9,18 @@ router.post('/', complaintController.addComplaint);
 router.get('/', complaintController.getAllComplaints);
 
 // Mendapatkan komplaint berdasarkan complaint_id
-router.get('/:complaint_id', complaintController.getComplaintById);
+router.get('/:complaintID', complaintController.getComplaintById);
 
 // Mendapatkan komplain berdasarkan user_id
-router.get('/users/:user_id', complaintController.getComplaintsByUserId);
+router.get('/users/:userID', complaintController.getComplaintsByUserId);
 
-// Mendapatkan komplaint berdasarkan gov_id
-router.get('/govs/:gov_id', complaintController.getComplaintsByGovId);
+// Mendapatkan komplain berdasarkan gov_id
+router.get('/govs/:govID', complaintController.getComplaintsByGovId);
 
-// Menghapus user berdasarkan user_id
-router.delete('/:complaint_id', complaintController.deleteComplaint);
+// Menghapus komplain berdasarkan complaint_id
+router.delete('/:complaintID', complaintController.deleteComplaint);
 
-// Update user
-router.patch('/:complaint_id', complaintController.updateComplaint);
+// Update komplain
+router.patch('/:complaintID', complaintController.updateComplaint);
 
 module.exports = router;

@@ -1,59 +1,57 @@
-module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-      'User',
-      {
-          userID: {
-              type: DataTypes.INTEGER,
-              autoIncrement: true,
-              primaryKey: true,
-              allowNull: false,
-          },
-          username: {
-              type: DataTypes.STRING,
-              allowNull: false,
-              unique: true, // Ensure no duplicate usernames
-              validate: {
-                  len: [3, 50], // Username length between 3 and 50 characters
-              },
-          },
-          password: {
-              type: DataTypes.STRING,
-              allowNull: false,
-          },
-          salt: {
-              type: DataTypes.STRING,
-              allowNull: false,
-          },
-          email: {
-              type: DataTypes.STRING,
-              allowNull: true,
-              unique: true, // Ensure no duplicate emails
-              validate: {
-                  isEmail: true, // Check for valid email format
-              },
-          },
-          phoneNumber: {
-              type: DataTypes.STRING,
-              allowNull: false,
-              unique: true, // Ensure no duplicate phone numbers
-              validate: {
-                  isNumeric: true, // Check for numeric value
-                  len: [10, 15], // Phone number length between 10 and 15 digits
-              },
-          },
-      },
-      {
-          timestamps: true, // Automatically adds `createdAt` and `updatedAt`
-          tableName: 'Users', // Explicit table name
-      }
-  );
+const { DataTypes } = require('sequelize'); // Import Sequelize and DataTypes
+const sequelize = require('../database/connection'); // Import your Sequelize connection
 
-  User.associate = (models) => {
-      // One-to-Many relationship with Complaints
-      User.hasMany(models.Complaint, {
-          foreignKey: 'userID',
-      });
-  };
+// Define the User model
+const User = sequelize.define('User', {
+    userID: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false,
+    },
+    username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true, // Ensure unique usernames
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    salt: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true, // Ensure unique emails
+    },
+    phoneNumber: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true, // Ensure unique phone numbers
+    },
+});
 
-  return User;
+// Define associations
+User.associate = (models) => {
+    // Assuming there’s a 'Complaint' model, define the relationship
+    User.hasMany(models.Complaint, {
+        foreignKey: 'userID',
+        as: 'complaints', // Defines the alias for the relationship
+    });
 };
+
+// Sync the model with the database (in dev mode, using `force: true` will recreate tables)
+(async () => {
+    try {
+        await sequelize.sync({ force: false }); // Use force: false for safe table creation in production
+        console.log("User model synced successfully!");
+    } catch (error) {
+        console.error("Error syncing User model:", error);
+    }
+})();
+
+// Export the User model
+module.exports = User;

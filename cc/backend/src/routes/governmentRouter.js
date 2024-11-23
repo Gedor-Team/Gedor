@@ -9,12 +9,12 @@ router.post('/', governmentController.addGovernment);
 router.get('/', governmentController.getAllGovernment);
 
 // Get government by govID
-router.get('/:gov_id', governmentController.getGovernmentById);
+router.get('/:govID', governmentController.getGovernmentById);
 
 // Delete government by govID
-router.delete('/:gov_id', governmentController.deleteGovernment);
+router.delete('/:govID', governmentController.deleteGovernment);
 
 // Update government by govID
-router.patch('/:gov_id', governmentController.updateGovernment);
+router.patch('/:govID', governmentController.updateGovernment);
 
 module.exports = router;

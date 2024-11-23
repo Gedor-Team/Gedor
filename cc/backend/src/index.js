@@ -1,5 +1,6 @@
 const express = require("express"); 
-
+// const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = require('./database/connection');
 const app = express(); 
 
 const userRouter = require("./routes/userRouter");
@@ -15,6 +16,11 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/complaints", complaintRouter);    
 app.use("/api/govs",governmentRouter);
+
+// Test if database connection is working
+sequelize.authenticate()
+    .then(() => console.log("Database connected successfully"))
+    .catch((error) => console.error("Error connecting to database:", error));
 
 const PORT = 3000; 
 

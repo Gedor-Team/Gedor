@@ -1,12 +1,15 @@
-const { Government } = require('../models/governmentModel'); // Import Government model from Sequelize models
+const Government= require('../models/governmentModel'); // Import Government model from Sequelize models
 
 const governmentController = {
   // Add a new government
   addGovernment: async (req, res) => {
     try {
-      const { name, address, phoneNumber, email } = req.body;
+      const { username, password, salt, name, address, phoneNumber, email } = req.body;
 
       const newGovernment = await Government.create({
+        username,
+        password,
+        salt,
         name,
         address,
         phoneNumber,
@@ -33,7 +36,7 @@ const governmentController = {
   // Get government by ID
   getGovernmentById: async (req, res) => {
     try {
-      const governmentId = req.params.id; // Assume the ID is passed as a route parameter
+      const governmentId = req.params.govID; // Assume the ID is passed as a route parameter
       const government = await Government.findOne({ where: { govID: governmentId } }); // Sequelize's findOne with a condition
 
       if (!government) {
@@ -51,7 +54,7 @@ const governmentController = {
   // Update government by ID
   updateGovernment: async (req, res) => {
     try {
-      const governmentId = req.params.id; // Assume the ID is passed as a route parameter
+      const governmentId = req.params.govID; // Assume the ID is passed as a route parameter
       const updatedGovernmentData = req.body;
 
       const [updated] = await Government.update(updatedGovernmentData, {
@@ -73,7 +76,7 @@ const governmentController = {
   // Delete government by ID
   deleteGovernment: async (req, res) => {
     try {
-      const governmentId = req.params.id; // Assume the ID is passed as a route parameter
+      const governmentId = req.params.govID; // Assume the ID is passed as a route parameter
       const deletedGovernment = await Government.destroy({
         where: { govID: governmentId },
       }); // Sequelize's destroy method

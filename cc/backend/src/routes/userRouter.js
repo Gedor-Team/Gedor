@@ -1,20 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const bookController = require('../controllers/userController'); // Asumsikan path relatif ini sesuai dengan struktur direktori Anda
+const userController = require('../controllers/userController'); // Asumsikan path relatif ini sesuai dengan struktur direktori Anda
 
 //menambahkan user
-router.post('/', bookController.addUser);
+router.post('/', userController.addUser);
 
 // Mendapatkan semua user
-router.get('/', bookController.getAllUser);
+router.get('/', userController.getAllUser);
 
 // Mendapatkan user berdasarkan user_id
-router.get('/:user_id', bookController.getUserById);
+router.get('/:userID', userController.getUserById);
 
 // Menghapus user berdasarkan user_id
-router.delete('/:user_id', bookController.deleteUser);
+router.delete('/:userID', userController.deleteUser);
 
 // Update user
-router.patch('/:user_id', bookController.updateUser);
+router.patch('/:userID', userController.updateUser);
 
 module.exports = router;

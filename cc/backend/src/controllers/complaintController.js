@@ -1,4 +1,4 @@
-const { Complaint } = require('../models/complaintModel'); // Import Complaint model from Sequelize models
+const Complaint= require('../models/complaintModel'); // Import Complaint model from Sequelize models
 
 const complaintController = {
   // Add a new complaint
@@ -34,16 +34,16 @@ const complaintController = {
   getAllComplaints: async (req, res) => {
     try {
       const complaints = await Complaint.findAll({
-        include: [
-          {
-            model: sequelize.models.User, // Include the User associated with each complaint
-            as: 'user',
-          },
-          {
-            model: sequelize.models.Government, // Include the Government associated with each complaint
-            as: 'government',
-          }
-        ],
+        // include: [
+        //   {
+        //     model: sequelize.models.User, // Include the User associated with each complaint
+        //     as: 'user',
+        //   },
+        //   {
+        //     model: sequelize.models.Government, // Include the Government associated with each complaint
+        //     as: 'government',
+        //   }
+        // ],
       });
       res.status(200).json(complaints);
     } catch (error) {
@@ -54,19 +54,19 @@ const complaintController = {
   // Get complaint by ID
   getComplaintById: async (req, res) => {
     try {
-      const complaintId = req.params.id; // Assume the ID is passed as a route parameter
+      const complaintId = req.params.complaintID; // Assume the ID is passed as a route parameter
       const complaint = await Complaint.findOne({
-        where: { complaintID: complaintId },
-        include: [
-          {
-            model: sequelize.models.User, // Include the User associated with the complaint
-            as: 'user',
-          },
-          {
-            model: sequelize.models.Government, // Include the Government associated with the complaint
-            as: 'government',
-          }
-        ],
+        where: { complaintID: complaintId }
+        // include: [
+        //   {
+        //     model: sequelize.models.User, // Include the User associated with the complaint
+        //     as: 'user',
+        //   },
+        //   {
+        //     model: sequelize.models.Government, // Include the Government associated with the complaint
+        //     as: 'government',
+        //   }
+        // ],
       });
 
       if (!complaint) {
@@ -86,17 +86,17 @@ const complaintController = {
     try {
       const userId = req.params.userID; // Assume the userID is passed as a route parameter
       const complaints = await Complaint.findAll({
-        where: { userID: userId },
-        include: [
-          {
-            model: sequelize.models.User, // Include the User associated with each complaint
-            as: 'user',
-          },
-          {
-            model: sequelize.models.Government, // Include the Government associated with each complaint
-            as: 'government',
-          }
-        ],
+        where: { userID: userId }
+        // include: [
+        //   {
+        //     model: sequelize.models.User, // Include the User associated with each complaint
+        //     as: 'user',
+        //   },
+        //   {
+        //     model: sequelize.models.Government, // Include the Government associated with each complaint
+        //     as: 'government',
+        //   }
+        // ],
       });
 
       if (!complaints || complaints.length === 0) {
@@ -114,17 +114,17 @@ const complaintController = {
     try {
       const govId = req.params.govID; // Assume the govID is passed as a route parameter
       const complaints = await Complaint.findAll({
-        where: { govID: govId },
-        include: [
-          {
-            model: sequelize.models.User, // Include the User associated with each complaint
-            as: 'user',
-          },
-          {
-            model: sequelize.models.Government, // Include the Government associated with each complaint
-            as: 'government',
-          }
-        ],
+        where: { govID: govId }
+        // include: [
+        //   {
+        //     model: sequelize.models.User, // Include the User associated with each complaint
+        //     as: 'user',
+        //   },
+        //   {
+        //     model: sequelize.models.Government, // Include the Government associated with each complaint
+        //     as: 'government',
+        //   }
+        // ],
       });
 
       if (!complaints || complaints.length === 0) {
@@ -140,7 +140,7 @@ const complaintController = {
   // Update complaint by ID
   updateComplaint: async (req, res) => {
     try {
-      const complaintId = req.params.id; // Assume the ID is passed as a route parameter
+      const complaintId = req.params.complaintID; // Assume the ID is passed as a route parameter
       const updatedComplaintData = req.body;
 
       const [updated] = await Complaint.update(updatedComplaintData, {
@@ -152,17 +152,17 @@ const complaintController = {
       }
 
       const updatedComplaint = await Complaint.findOne({
-        where: { complaintID: complaintId },
-        include: [
-          {
-            model: sequelize.models.User, // Include the User associated with the updated complaint
-            as: 'user',
-          },
-          {
-            model: sequelize.models.Government, // Include the Government associated with the updated complaint
-            as: 'government',
-          }
-        ],
+        where: { complaintID: complaintId }
+        // include: [
+        //   {
+        //     model: sequelize.models.User, // Include the User associated with the updated complaint
+        //     as: 'user',
+        //   },
+        //   {
+        //     model: sequelize.models.Government, // Include the Government associated with the updated complaint
+        //     as: 'government',
+        //   }
+        // ],
       });
 
       res.json(updatedComplaint);
@@ -175,7 +175,7 @@ const complaintController = {
   // Delete complaint by ID
   deleteComplaint: async (req, res) => {
     try {
-      const complaintId = req.params.id; // Assume the ID is passed as a route parameter
+      const complaintId = req.params.complaintID; // Assume the ID is passed as a route parameter
       const deletedComplaint = await Complaint.destroy({
         where: { complaintID: complaintId },
       }); // Sequelize's destroy method
