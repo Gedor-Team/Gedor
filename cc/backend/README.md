@@ -14,24 +14,9 @@ Before you start, ensure that you have the following installed on your system:
 1. **Install Node.js**  
 Download and install Node.js from the [official website](https://nodejs.org/). This will also install npm (Node Package Manager).
 
-2. **Install Nodemon**  
+2. **Install Dependencies**  
 ```bash
-npm install nodemon
-```
-
-3. **Install Express**
-```bash
-npm install express
-```
-
-4. **Install MySQL**
-```bash
-npm install mysql2
-```
-
-5. **Install Sequelize**
-```bash
-npm install sequelize
+npm install
 ```
 
 ## Build Steps
