@@ -12,6 +12,7 @@ const userController = {
         salt,
         email,
         phoneNumber,
+        createdAt: new Date(),
       });
 
       res.status(201).json(newUser);
