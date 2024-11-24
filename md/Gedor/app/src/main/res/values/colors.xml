@@ -6,4 +6,6 @@
     <color name="primaryContainer">#A0D683</color>
     <color name="secondaryContainer">#D3EDC5</color>
     <color name="onSecondaryContainer">#526E48</color>
+<!--    <color name="error">#B3261E</color>"-->
+    <color name="error">#EE4E4E</color>
 </resources>

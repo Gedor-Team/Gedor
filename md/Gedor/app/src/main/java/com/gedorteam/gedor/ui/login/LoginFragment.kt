@@ -6,9 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import com.gedorteam.gedor.R
+import com.gedorteam.gedor.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
+
+    private lateinit var binding: FragmentLoginBinding
 
     companion object {
         fun newInstance() = LoginFragment()
@@ -26,6 +30,29 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.apply {
+            btnLogin.setOnClickListener {
+                toHomeFragment()
+            }
+
+            btnSignUp.setOnClickListener {
+                toRegisterFragment()
+            }
+        }
+    }
+
+    private fun toHomeFragment() {
+        Navigation.findNavController(view?: View(context)).navigate(R.id.action_login_fragment_to_navigation_home)
+    }
+    private fun toRegisterFragment() {
+        Navigation.findNavController(view?: View(context)).navigate(R.id.action_login_fragment_to_register_fragment)
     }
 }

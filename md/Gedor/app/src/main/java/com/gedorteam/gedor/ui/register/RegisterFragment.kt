@@ -1,4 +1,4 @@
-package com.gedorteam.gedor.ui.home
+package com.gedorteam.gedor.ui.register
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
@@ -8,14 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.gedorteam.gedor.R
+import com.gedorteam.gedor.databinding.FragmentRegisterBinding
 
-class HomeFragment : Fragment() {
+class RegisterFragment : Fragment() {
 
     companion object {
-        fun newInstance() = HomeFragment()
+        fun newInstance() = RegisterFragment()
     }
 
-    private val viewModel: HomeViewModel by viewModels()
+    private lateinit var binding: FragmentRegisterBinding
+    private val viewModel: RegisterViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +29,8 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,6 +38,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun redirectToLoginActivity() {
-        Navigation.findNavController(view?: View(context)).navigate(R.id.action_navigation_home_to_login_fragment)
+        Navigation.findNavController(view?: View(context)).navigate(R.id.action_register_fragment_to_login_fragment)
     }
 }
