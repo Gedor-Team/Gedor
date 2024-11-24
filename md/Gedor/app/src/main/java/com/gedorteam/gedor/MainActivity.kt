@@ -1,6 +1,7 @@
 package com.gedorteam.gedor
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -42,5 +43,14 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.navigation_home -> navView.visibility = View.VISIBLE
+                R.id.navigation_complaints -> navView.visibility = View.VISIBLE
+                R.id.navigation_account -> navView.visibility = View.VISIBLE
+                R.id.login_fragment -> navView.visibility = View.GONE
+            }
+        }
     }
 }

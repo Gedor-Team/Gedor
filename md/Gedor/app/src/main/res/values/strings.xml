@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">Gedor</string>
     <string name="title_home">Home</string>
-    <string name="title_complaints">Laporan</string>
-    <string name="title_account">Akun</string>
+    <string name="title_complaints">Complaints</string>
+    <string name="title_account">Account</string>
+    <string name="title_login">Login to your account</string>
+    <string name="email">Email</string>
+    <string name="email_hint">Enter your email</string>
+    <string name="password">Password</string>
+    <string name="password_hint">Enter your password</string>
+    <string name="login">Login</string>
+    <string name="dont_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="title_login_desc">Kindly login to gain access to your account</string>
 </resources>

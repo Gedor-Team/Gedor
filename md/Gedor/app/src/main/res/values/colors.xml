@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="primary">#80AB69</color>
+    <color name="primaryContainer">#A0D683</color>
+    <color name="secondaryContainer">#D3EDC5</color>
+    <color name="onSecondaryContainer">#526E48</color>
 </resources>
