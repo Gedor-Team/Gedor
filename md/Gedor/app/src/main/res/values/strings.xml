@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Gedor</string>
+    <string name="title_home">Home</string>
+    <string name="title_complaints">Laporan</string>
+    <string name="title_account">Akun</string>
 </resources>
