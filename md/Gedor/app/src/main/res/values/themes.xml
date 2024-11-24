@@ -5,6 +5,7 @@
          <item name="colorPrimary">@color/primary</item>
         <item name="colorSecondaryContainer">@color/secondaryContainer</item>
         <item name="colorOnSecondaryContainer">@color/onSecondaryContainer</item>
+<!--        <item name="colorOutline"></item>-->
     </style>
 
     <style name="Theme.Gedor" parent="Base.Theme.Gedor" />

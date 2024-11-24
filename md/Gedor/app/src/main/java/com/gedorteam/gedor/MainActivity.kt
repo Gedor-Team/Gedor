@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         enableEdgeToEdge()
@@ -49,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home -> navView.visibility = View.VISIBLE
                 R.id.navigation_complaints -> navView.visibility = View.VISIBLE
                 R.id.navigation_account -> navView.visibility = View.VISIBLE
-                R.id.login_fragment -> navView.visibility = View.GONE
+                else -> navView.visibility = View.GONE
             }
         }
     }

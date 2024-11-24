@@ -13,4 +13,11 @@
     <string name="sign_up">Sign Up</string>
     <string name="title_login_desc">Kindly login to gain access to your account</string>
     <string name="logout">Logout</string>
+    <string name="title_signup">Create an account</string>
+    <string name="title_register_desc">Complete the registration process to create an account</string>
+    <string name="username_hint">Enter username</string>
+    <string name="username">Username</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="confirm_password_hint">Type your password again</string>
 </resources>
