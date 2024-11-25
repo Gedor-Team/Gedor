@@ -12,6 +12,24 @@ const userController = {
         return res.status(400).json({ success: false, message: "All fields are required" });
       }
 
+      // Validate email with regex
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation regex
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Invalid email format" 
+        });
+      }
+
+      // Validate phone number
+      const phoneRegex = /^[0-9]{10,15}$/; // Accepts phone numbers with 10-15 digits
+      if (!phoneRegex.test(phoneNumber)) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Invalid phone number format. It should contain 10-15 digits." 
+        });
+      }
+
       // Generate salt and hash the password
       const saltRounds = 10; // Define the cost factor for bcrypt
       const salt = await bcrypt.genSalt(saltRounds);
@@ -104,6 +122,28 @@ const userController = {
         });
       }
 
+      // Validate email if it's being updated
+      if (updatedUserData.email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(updatedUserData.email)) {
+          return res.status(400).json({
+            success: false,
+            message: "Invalid email format",
+          });
+        }
+      }
+
+      // Validate phone number if it's being updated
+      if (updatedUserData.phoneNumber) {
+        const phoneRegex = /^[0-9]{10,15}$/; // Accepts phone numbers with 10-15 digits
+        if (!phoneRegex.test(updatedUserData.phoneNumber)) {
+          return res.status(400).json({
+            success: false,
+            message: "Invalid phone number format. It should contain 10-15 digits.",
+          });
+        }
+      }
+
       const [updated] = await User.update(updatedUserData, {
         where: { userID: userId },
       }); // Sequelize's update method
@@ -146,10 +186,10 @@ const userController = {
         });
       }
 
-      res.status(200).json({
-        success: true,
-        message: "User deleted successfully",
-      });
+        res.status(200).json({
+          success: true,
+          message: "User deleted successfully",
+        });
     } catch (error) {
       console.error(error);
       res.status(500).json({

@@ -12,6 +12,24 @@ const governmentController = {
         return res.status(400).json({ success: false, message: "All fields are required" });
       }
 
+      // Validate email with regex
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation regex
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Invalid email format" 
+        });
+      }
+
+      // Validate phone number
+      const phoneRegex = /^[0-9]{10,15}$/; // Accepts phone numbers with 10-15 digits
+      if (!phoneRegex.test(phoneNumber)) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Invalid phone number format. It should contain 10-15 digits." 
+        });
+      }
+
       // Generate salt and hash the password
       const saltRounds = 10; // Define the cost factor for bcrypt
       const salt = await bcrypt.genSalt(saltRounds);
@@ -91,6 +109,28 @@ const governmentController = {
     try {
       const governmentId = req.params.govID; // Assume the ID is passed as a route parameter
       const updatedGovernmentData = req.body;
+
+      // Validate email if it's being updated
+      if (updatedGovernmentData.email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(updatedUserData.email)) {
+          return res.status(400).json({
+            success: false,
+            message: "Invalid email format",
+          });
+        }
+      }
+
+      // Validate phone number if it's being updated
+      if (updatedGovernmentData.phoneNumber) {
+        const phoneRegex = /^[0-9]{10,15}$/; // Accepts phone numbers with 10-15 digits
+        if (!phoneRegex.test(updatedUserData.phoneNumber)) {
+          return res.status(400).json({
+            success: false,
+            message: "Invalid phone number format. It should contain 10-15 digits.",
+          });
+        }
+      }
 
       const [updated] = await Government.update(updatedGovernmentData, {
         where: { govID: governmentId },
