@@ -26,7 +26,11 @@ const complaintController = {
       res.status(201).json(newComplaint);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Server Error", error });
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: error.message || error,
+      });
     }
   },
 
@@ -47,7 +51,12 @@ const complaintController = {
       });
       res.status(200).json(complaints);
     } catch (error) {
-      res.status(500).json({ message: "Server Error", error });
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: error.message || error,
+      });
     }
   },
 
@@ -77,7 +86,12 @@ const complaintController = {
 
       res.status(200).json({ success: true, data: complaint });
     } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: error.message || error,
+      });
     }
   },
 
@@ -105,7 +119,12 @@ const complaintController = {
 
       res.status(200).json({ success: true, data: complaints });
     } catch (error) {
-      res.status(500).json({ message: "Server Error", error });
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: error.message || error,
+      });
     }
   },
 
@@ -133,7 +152,12 @@ const complaintController = {
 
       res.status(200).json({ success: true, data: complaints });
     } catch (error) {
-      res.status(500).json({ message: "Server Error", error });
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: error.message || error,
+      });
     }
   },
 
@@ -168,7 +192,11 @@ const complaintController = {
       res.json(updatedComplaint);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Server Error", error });
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: error.message || error,
+      });
     }
   },
 
@@ -186,7 +214,12 @@ const complaintController = {
 
       res.status(200).json({ message: "Complaint deleted successfully" });
     } catch (error) {
-      res.status(500).json({ message: "Server Error", error });
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: error.message || error,
+      });
     }
   },
 };

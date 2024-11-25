@@ -1,19 +1,25 @@
 const User = require('../models/userModel'); // Import User model from Sequelize models
+const bcrypt = require('bcrypt');
 
 const userController = {
   // Add a new user
   addUser: async (req, res) => {
     try {
-      const { username, password, salt, email, phoneNumber } = req.body;
+      const { username, password, email, phoneNumber } = req.body;
 
       // Validate required fields (basic example)
-      if (!username || !password || !salt || !email || !phoneNumber) {
+      if (!username || !password || !phoneNumber) {
         return res.status(400).json({ success: false, message: "All fields are required" });
       }
 
+      // Generate salt and hash the password
+      const saltRounds = 10; // Define the cost factor for bcrypt
+      const salt = await bcrypt.genSalt(saltRounds);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
       const newUser = await User.create({
         username,
-        password,
+        password: hashedPassword,
         salt,
         email,
         phoneNumber,

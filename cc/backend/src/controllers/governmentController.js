@@ -1,14 +1,25 @@
 const Government= require('../models/governmentModel'); // Import Government model from Sequelize models
+const bcrypt = require('bcrypt');
 
 const governmentController = {
   // Add a new government
   addGovernment: async (req, res) => {
     try {
-      const { username, password, salt, name, address, phoneNumber, email } = req.body;
+      const { username, password, name, address, phoneNumber, email } = req.body;
+
+      // Validate required fields (basic example)
+      if (!username || !password || !name || !phoneNumber || !email || !address) {
+        return res.status(400).json({ success: false, message: "All fields are required" });
+      }
+
+      // Generate salt and hash the password
+      const saltRounds = 10; // Define the cost factor for bcrypt
+      const salt = await bcrypt.genSalt(saltRounds);
+      const hashedPassword = await bcrypt.hash(password, salt);
 
       const newGovernment = await Government.create({
         username,
-        password,
+        password: hashedPassword,
         salt,
         name,
         address,
@@ -16,10 +27,18 @@ const governmentController = {
         email,
       });
 
-      res.status(201).json(newGovernment);
+      res.status(201).json({
+        success: true,
+        message: "Government created successfully",
+        data: newGovernment,
+      });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Server Error", error });
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: error.message || error,
+      });
     }
   },
 
@@ -27,9 +46,17 @@ const governmentController = {
   getAllGovernment: async (req, res) => {
     try {
       const governments = await Government.findAll(); // Sequelize's findAll method for retrieving all records
-      res.status(200).json(governments);
+      res.status(200).json({
+        success: true,
+        data: governments,
+      });
     } catch (error) {
-      res.status(500).json({ message: "Server Error", error });
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: error.message || error,
+      });
     }
   },
 
@@ -45,9 +72,17 @@ const governmentController = {
           .json({ success: false, message: "Government not found" });
       }
 
-      res.status(200).json({ success: true, data: government });
+      res.status(200).json({
+        success: true,
+        data: government,
+      });
     } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: error.message || error,
+      });
     }
   },
 
@@ -66,10 +101,18 @@ const governmentController = {
       }
 
       const updatedGovernment = await Government.findOne({ where: { govID: governmentId } }); // Fetch updated record
-      res.json(updatedGovernment);
+      res.status(200).json({
+        success: true,
+        message: "Government updated successfully",
+        data: updatedGovernment,
+      });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Server Error", error });
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: error.message || error,
+      });
     }
   },
 
@@ -85,9 +128,17 @@ const governmentController = {
         return res.status(404).json({ message: "Government not found" });
       }
 
-      res.status(200).json({ message: "Government deleted successfully" });
+      res.status(200).json({
+        success: true,
+        message: "Government deleted successfully",
+      });
     } catch (error) {
-      res.status(500).json({ message: "Server Error", error });
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: error.message || error,
+      });
     }
   },
 };
