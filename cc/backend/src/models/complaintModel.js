@@ -81,5 +81,15 @@ Complaint.associate = (models) => {
   });
 };
 
+// Sync the model with the database (in dev mode, using `force: true` will recreate tables)
+(async () => {
+  try {
+      await sequelize.sync({ force: false }); // Use force: false for safe table creation in production
+      console.log("Complaint model synced successfully!");
+  } catch (error) {
+      console.error("Error syncing User model:", error);
+  }
+})();
+
 // Export the Complaint model
 module.exports = Complaint;
