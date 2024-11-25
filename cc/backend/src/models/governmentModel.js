@@ -11,6 +11,7 @@ const Government = sequelize.define('Government', {
   username: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   password: {
     type: DataTypes.STRING,
@@ -23,18 +24,22 @@ const Government = sequelize.define('Government', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   address: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   phoneNumber: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   }
 }, {
   timestamps: true,
