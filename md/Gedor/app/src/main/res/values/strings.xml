@@ -20,4 +20,6 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="confirm_password">Confirm password</string>
     <string name="confirm_password_hint">Type your password again</string>
+    <string name="change_password">Change password</string>
+    <string name="save">Save</string>
 </resources>

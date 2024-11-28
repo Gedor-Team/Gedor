@@ -35,7 +35,7 @@ class AccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tvLogout.setOnClickListener {
+        binding.btnLogout.setOnClickListener {
             redirectToLoginActivity()
         }
     }
