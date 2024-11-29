@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#80AB69</color>
     <color name="primaryContainer">#A0D683</color>
+    <color name="onPrimaryContainer">#2F4523</color>
     <color name="secondaryContainer">#D3EDC5</color>
     <color name="onSecondaryContainer">#526E48</color>
 <!--    <color name="error">#B3261E</color>"-->

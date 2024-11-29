@@ -22,4 +22,6 @@
     <string name="confirm_password_hint">Type your password again</string>
     <string name="change_password">Change password</string>
     <string name="save">Save</string>
+    <string name="welcome">Welcome</string>
+    <string name="total_complaint">Total Complaint</string>
 </resources>
