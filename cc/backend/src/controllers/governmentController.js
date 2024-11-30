@@ -1,4 +1,4 @@
-const Government= require('../models/governmentModel'); // Import Government model from Sequelize models
+const Government = require('../models/governmentModel'); // Import Government model from Sequelize models
 const bcrypt = require('bcrypt');
 
 const governmentController = {
