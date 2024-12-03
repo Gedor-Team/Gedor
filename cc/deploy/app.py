@@ -26,6 +26,16 @@ with open('utils/xgboost/xgboost_cnt_vectorizer.pkl', 'rb') as f:
 factory = StemmerFactory()
 stemmer = factory.create_stemmer()
 
+category = ['lingkungan',
+ 'fasilitas umum',
+ 'kekeringan',
+ 'polusi',
+ 'lainnya',
+ 'layanan',
+ 'limbah',
+ 'sampah',
+ 'hutan']
+
 # Load the model (modify the path as needed)
 complaint_model = tf.keras.models.load_model('utils/bidirectional_lstm/bidirectional_lstm_model.h5')
 
@@ -73,10 +83,13 @@ def predict_complaint():
 
         predictions = complaint_model.predict(input_tensor).tolist()
 
+        # Convert predictions to True/False based on threshold
+        thresholded_predictions = [pred >= 0.5 for pred in predictions[0]]
+
         return jsonify({
             'success': True,
             'message': 'Prediction successful',
-            'predictions': predictions
+            'predictions': thresholded_predictions[0]
         })
 
     except Exception as e:
@@ -93,15 +106,21 @@ def predict_category():
 
         cleaned_complaint = clean_complaint(input_complaint)
 
+        if not cleaned_complaint:
+            return jsonify({'success': False, 'message': 'Invalid input data'}), 400
+
         # Transform the preprocessed input using the vectorizer
         input_vectorized = count_vectorizer.transform([cleaned_complaint])
 
         predictions = category_model.predict_proba(input_vectorized).tolist()
 
+        # Get the index of the class with the highest probability
+        max_prediction_index = int(np.argmax(predictions[0]))
+
         return jsonify({
             'success': True,
             'message': 'Prediction successful',
-            'predictions': predictions
+            'predictions': category[max_prediction_index]
         })
 
     except Exception as e:
