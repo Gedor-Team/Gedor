@@ -4,6 +4,7 @@ import numpy as np
 from flask import Flask, request, jsonify
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 import re
+import pickle
 
 app = Flask(__name__)
 
@@ -14,6 +15,13 @@ with open('utils/stop_words.json', 'r', encoding='utf-8') as f:
 with open('utils/bidirectional_lstm/word_index.json', 'r', encoding='utf-8') as f:
     word_index = json.load(f)
 
+# Load the XGBoost model and vectorizer
+with open('utils/xgboost/xgboost_cnt_model.pkl', 'rb') as f:
+    category_model = pickle.load(f)
+
+with open('utils/xgboost/xgboost_cnt_vectorizer.pkl', 'rb') as f:
+    count_vectorizer = pickle.load(f)
+
 # Initialize stemmer
 factory = StemmerFactory()
 stemmer = factory.create_stemmer()
@@ -22,6 +30,7 @@ stemmer = factory.create_stemmer()
 complaint_model = tf.keras.models.load_model('utils/bidirectional_lstm/bidirectional_lstm_model.h5')
 
 def clean_complaint(complaint):
+    complaint = complaint.lower()
     complaint = re.sub(r'@\w+', '', complaint)  # Remove usernames
     complaint = re.sub(r'http\S+', '', complaint)  # Remove URLs
     complaint = re.sub(r'[^\w\s]', '', complaint)  # Remove punctuation
@@ -30,7 +39,6 @@ def clean_complaint(complaint):
     return complaint
 
 def remove_stopwords(complaint):
-    complaint = complaint.lower()
     words = complaint.split(' ')
     words = [word for word in words if word not in stopwords]
     words = [stemmer.stem(word) for word in words]
@@ -74,29 +82,30 @@ def predict_complaint():
     except Exception as e:
         return jsonify({'success': False, 'message': 'Server error', 'error': str(e)}), 500
 
-# # Route for predicting with the category detector model
-# @app.route('/models/category', methods=['POST'])
-# def predict_category():
-#     try:
-#         data = request.get_json()
-#         input_complaint = data.get('input')
-#         if not input_complaint:
-#             return jsonify({'success': False, 'message': 'Input data is required'}), 400
+# Route for predicting with the category detector model
+@app.route('/models/category', methods=['POST'])
+def predict_category():
+    try:
+        data = request.get_json()
+        input_complaint = data.get('input')
+        if not input_complaint:
+            return jsonify({'success': False, 'message': 'Input data is required'}), 400
 
-#         preprocessed_complaint = preprocess_complaint(input_complaint)
+        cleaned_complaint = clean_complaint(input_complaint)
 
-#         input_tensor = np.array([preprocessed_complaint])
+        # Transform the preprocessed input using the vectorizer
+        input_vectorized = count_vectorizer.transform([cleaned_complaint])
 
-#         predictions = model.predict(input_tensor).tolist()
+        predictions = category_model.predict_proba(input_vectorized).tolist()
 
-#         return jsonify({
-#             'success': True,
-#             'message': 'Prediction successful',
-#             'predictions': predictions
-#         })
+        return jsonify({
+            'success': True,
+            'message': 'Prediction successful',
+            'predictions': predictions
+        })
 
-#     except Exception as e:
-#         return jsonify({'success': False, 'message': 'Server error', 'error': str(e)}), 500
+    except Exception as e:
+        return jsonify({'success': False, 'message': 'Server error', 'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
