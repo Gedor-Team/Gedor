@@ -5,6 +5,14 @@ from flask import Flask, request, jsonify
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 import re
 import pickle
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
@@ -26,15 +34,17 @@ with open('utils/xgboost/xgboost_cnt_vectorizer.pkl', 'rb') as f:
 factory = StemmerFactory()
 stemmer = factory.create_stemmer()
 
-category = ['lingkungan',
- 'fasilitas umum',
- 'kekeringan',
- 'polusi',
- 'lainnya',
- 'layanan',
- 'limbah',
- 'sampah',
- 'hutan']
+category = [
+    'lingkungan',
+    'fasilitas umum',
+    'kekeringan',
+    'polusi',
+    'lainnya',
+    'layanan',
+    'limbah',
+    'sampah',
+    'hutan'
+]
 
 # Load the model (modify the path as needed)
 complaint_model = tf.keras.models.load_model('utils/bidirectional_lstm/bidirectional_lstm_model.h5')
@@ -59,7 +69,7 @@ def tokenize_complaint(complaint):
     tokenized_complaint = [word_index.get(word, 0) for word in words]
     return tokenized_complaint
 
-def preprocess_complaint(complaint):    
+def preprocess_complaint(complaint):
     cleaned_complaint = clean_complaint(complaint)
     cleaned_complaint = remove_stopwords(cleaned_complaint)
     tokenized_complaint = tokenize_complaint(cleaned_complaint)
@@ -72,11 +82,17 @@ def predict_complaint():
         data = request.get_json()
         input_complaint = data.get('input')
         if not input_complaint:
+            logger.warning("No input data provided")
             return jsonify({'success': False, 'message': 'Input data is required'}), 400
+        
+        if not isinstance(input_complaint, str):
+            logger.warning("Invalid input type: expected string")
+            return jsonify({'success': False, 'message': 'Input must be a string'}), 400
 
         preprocessed_complaint = preprocess_complaint(input_complaint)
 
         if not preprocessed_complaint:
+            logger.warning("Preprocessed complaint is empty")
             return jsonify({'success': False, 'message': 'Invalid input data'}), 400
 
         input_tensor = np.array([preprocessed_complaint])
@@ -86,6 +102,7 @@ def predict_complaint():
         # Convert predictions to True/False based on threshold
         thresholded_predictions = [pred >= 0.5 for pred in predictions[0]]
 
+        logger.info("Complaint prediction successful")
         return jsonify({
             'success': True,
             'message': 'Prediction successful',
@@ -93,6 +110,7 @@ def predict_complaint():
         })
 
     except Exception as e:
+        logger.error(f"Error during complaint prediction: {e}")
         return jsonify({'success': False, 'message': 'Server error', 'error': str(e)}), 500
 
 # Route for predicting with the category detector model
@@ -102,11 +120,17 @@ def predict_category():
         data = request.get_json()
         input_complaint = data.get('input')
         if not input_complaint:
+            logger.warning("No input data provided")
             return jsonify({'success': False, 'message': 'Input data is required'}), 400
+        
+        if not isinstance(input_complaint, str):
+            logger.warning("Invalid input type: expected string")
+            return jsonify({'success': False, 'message': 'Input must be a string'}), 400
 
         cleaned_complaint = clean_complaint(input_complaint)
 
         if not cleaned_complaint:
+            logger.warning("Cleaned complaint is empty")
             return jsonify({'success': False, 'message': 'Invalid input data'}), 400
 
         # Transform the preprocessed input using the vectorizer
@@ -117,6 +141,7 @@ def predict_category():
         # Get the index of the class with the highest probability
         max_prediction_index = int(np.argmax(predictions[0]))
 
+        logger.info("Category prediction successful")
         return jsonify({
             'success': True,
             'message': 'Prediction successful',
@@ -124,7 +149,5 @@ def predict_category():
         })
 
     except Exception as e:
+        logger.error(f"Error during category prediction: {e}")
         return jsonify({'success': False, 'message': 'Server error', 'error': str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
