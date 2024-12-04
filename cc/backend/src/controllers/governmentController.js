@@ -104,6 +104,31 @@ const governmentController = {
     }
   },
 
+  getGovernmentByUsername: async (req, res) => {
+    try {
+      const user_name = req.params.username; // Assume the ID is passed as a route parameter
+      const government = await Government.findOne({ where: { username: user_name } }); // Sequelize's findOne with a condition
+
+      if (!government) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Government not found" });
+      }
+
+      res.status(200).json({
+        success: true,
+        data: government,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: error.message || error,
+      });
+    }
+  },
+
   // Update government by ID
   updateGovernment: async (req, res) => {
     try {
