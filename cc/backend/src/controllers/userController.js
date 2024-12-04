@@ -108,6 +108,32 @@ const userController = {
     }
   },
 
+  getUserByUsername: async (req, res) => {
+    try {
+      const user_name = req.params.username;
+      const user = await User.findOne({ where: {username: user_name}});
+
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        data: user,
+      });            
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: error.message || error,
+      });
+    }
+  },
+
   // Update user by ID
   updateUser: async (req, res) => {
     try {
