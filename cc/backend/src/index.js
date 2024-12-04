@@ -6,7 +6,6 @@ const app = express();
 const userRouter = require("./routes/userRouter");
 const complaintRouter = require("./routes/complaintRouter");
 const governmentRouter = require("./routes/governmentRouter");
-const modelRouter = require("./routes/modelRouter");
 
 // For testing purposes 
 app.get("/", (req, res) => { 
@@ -17,7 +16,6 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/complaints", complaintRouter);    
 app.use("/api/govs",governmentRouter);
-app.use("/api/models",modelRouter);
 
 // Test if database connection is working
 sequelize.authenticate()
