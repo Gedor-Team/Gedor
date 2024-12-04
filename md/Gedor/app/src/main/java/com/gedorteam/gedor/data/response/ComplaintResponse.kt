@@ -4,17 +4,20 @@ import com.google.gson.annotations.SerializedName
 
 data class ComplaintResponse(
 
-	@field:SerializedName("data")
-	val data: List<DataItem?>? = null,
-
-	@field:SerializedName("success")
-	val success: Boolean? = null
+	@field:SerializedName("ComplaintResponse")
+	val complaintResponse: List<ComplaintResponseItem?>? = null
 )
 
-data class DataItem(
+data class ComplaintResponseItem(
 
 	@field:SerializedName("provinsi")
 	val provinsi: String? = null,
+
+	@field:SerializedName("createdAt")
+	val createdAt: String? = null,
+
+	@field:SerializedName("complaintID")
+	val complaintID: Int? = null,
 
 	@field:SerializedName("complaint")
 	val complaint: String? = null,
@@ -38,5 +41,8 @@ data class DataItem(
 	val kabupaten: String? = null,
 
 	@field:SerializedName("status")
-	val status: String? = null
+	val status: String? = null,
+
+	@field:SerializedName("updatedAt")
+	val updatedAt: String? = null
 )

@@ -3,16 +3,16 @@ package com.gedorteam.gedor.data.repositories
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
-import com.gedorteam.gedor.data.response.DataItem
+import com.gedorteam.gedor.data.response.ComplaintResponseItem
 import com.gedorteam.gedor.data.retrofit.ApiService
 
 class ComplaintRepository private constructor(private val apiService: ApiService) {
 
-    fun getComplaints(): LiveData<Result<List<DataItem?>?>> = liveData {
+    fun getComplaints(): LiveData<Result<List<ComplaintResponseItem?>?>> = liveData {
         emit(Result.Loading)
         try {
             val response = apiService.getComplaints()
-            val complaints = response.data
+            val complaints = response.complaintResponse
             emit(Result.Success(complaints))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
