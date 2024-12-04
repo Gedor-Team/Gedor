@@ -1,0 +1,17 @@
+{
+  "name": "gedor",
+  "version": "1.0.0",
+  "description": "A mobile application that enables government agencies to manage public complaints effectively. Users can submit, track, and receive updates on their complaints, with automated sentiment analysis helping prioritize issues for faster responses.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "mysql2": "^3.11.5",
+    "sequelize": "^6.37.5"
+  }
+}
