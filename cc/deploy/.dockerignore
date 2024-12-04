@@ -1,0 +1,6 @@
+capstone
+__pycache__/
+*.pyc
+*.pyo
+.git
+*.gitignore

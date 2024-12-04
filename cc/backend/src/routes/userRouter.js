@@ -11,6 +11,9 @@ router.get('/', userController.getAllUser);
 // Mendapatkan user berdasarkan user_id
 router.get('/:userID', userController.getUserById);
 
+// Mendapatkan user berdasarkan user_id
+router.get('/login/:username', userController.getUserByUsername);
+
 // Menghapus user berdasarkan user_id
 router.delete('/:userID', userController.deleteUser);
 

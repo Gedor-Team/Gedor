@@ -11,6 +11,8 @@ router.get('/', governmentController.getAllGovernment);
 // Get government by govID
 router.get('/:govID', governmentController.getGovernmentById);
 
+router.get('/login/:username', governmentController.getGovernmentByUsername);
+
 // Delete government by govID
 router.delete('/:govID', governmentController.deleteGovernment);
 
