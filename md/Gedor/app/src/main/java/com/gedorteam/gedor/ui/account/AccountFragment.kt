@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
-import com.gedorteam.gedor.R
 import com.gedorteam.gedor.databinding.FragmentAccountBinding
 
 class AccountFragment : Fragment() {
@@ -35,12 +33,6 @@ class AccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnLogout.setOnClickListener {
-            redirectToLoginActivity()
-        }
-    }
 
-    private fun redirectToLoginActivity() {
-        Navigation.findNavController(view?: View(context)).navigate(R.id.action_navigation_account_to_login_fragment)
     }
 }
