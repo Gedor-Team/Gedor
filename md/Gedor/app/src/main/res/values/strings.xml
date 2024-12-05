@@ -39,4 +39,6 @@
     <string name="kabupaten_hint">Kabupaten</string>
     <string name="provinsi_hint">Provinsi</string>
     <string name="fab_send_feedback_description">Send a feedback</string>
+    <string name="phone_number_hint">Enter phone number</string>
+    <string name="phone_number">Phone number</string>
 </resources>
