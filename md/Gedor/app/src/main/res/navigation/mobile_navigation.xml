@@ -20,7 +20,19 @@
         android:id="@+id/navigation_complaints"
         android:name="com.gedorteam.gedor.ui.complaints.ComplaintFragment"
         android:label="@string/title_complaints"
-        tools:layout="@layout/fragment_complaint" />
+        tools:layout="@layout/fragment_complaint">
+
+        <action
+            android:id="@+id/action_navigation_complaints_to_upload_complaint_fragment"
+            app:destination="@id/upload_complaint_fragment"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/upload_complaint_fragment"
+        android:name="com.gedorteam.gedor.ui.report.UploadComplaintFragment"
+        tools:layout="@layout/fragment_upload_complaint">
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_setting"
@@ -36,11 +48,11 @@
 
         <action
             android:id="@+id/action_navigation_settings_to_account_fragment"
-            app:destination="@id/navigation_account" />
+            app:destination="@id/account_fragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_account"
+        android:id="@+id/account_fragment"
         android:name="com.gedorteam.gedor.ui.account.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account">

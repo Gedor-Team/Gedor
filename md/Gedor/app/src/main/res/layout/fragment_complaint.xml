@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.complaints.ComplaintFragment">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="12dp"
@@ -33,12 +33,12 @@
                 android:id="@+id/rv_user_complaint"
                 app:layout_constraintTop_toBottomOf="@id/tv_title_complaint"
                 android:layout_marginTop="12dp"
-                tools:itemCount="3"
+                tools:itemCount="5"
                 tools:listitem="@layout/item_complaint"
                 tools:visibility="visible"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:layout_width="wrap_content"
@@ -48,4 +48,16 @@
         tools:indeterminate="false"
         tools:visibility="visible"
         android:layout_gravity="center"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_add_feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="24dp"
+        android:contentDescription="@string/fab_send_feedback_description"
+        app:srcCompat="@drawable/outline_chat_add_on_24"
+        app:backgroundTint="@color/primaryContainer"
+        app:tint="@color/onPrimaryContainer"
+        />
 </FrameLayout>

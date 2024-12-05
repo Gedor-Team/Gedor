@@ -2,6 +2,6 @@ package com.gedorteam.gedor.ui.report
 
 import androidx.lifecycle.ViewModel
 
-class UserComplaintViewModel : ViewModel() {
+class UploadComplaintViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

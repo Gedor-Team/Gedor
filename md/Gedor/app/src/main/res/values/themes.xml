@@ -2,7 +2,9 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Gedor" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
-         <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryContainer">@color/primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/onPrimaryContainer</item>
         <item name="colorSecondaryContainer">@color/secondaryContainer</item>
         <item name="colorOnSecondaryContainer">@color/onSecondaryContainer</item>
 <!--        <item name="colorOutline"></item>-->

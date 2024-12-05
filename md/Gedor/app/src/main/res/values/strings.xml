@@ -28,11 +28,15 @@
     <string name="about_us">About GEDOR</string>
     <string name="term_of_use">Term Of Use</string>
     <string name="report">Report an Issue</string>
-    <string name="desc_report_form">Laporkan Sekarang !!</string>
-    <string name="title_report">Judul Laporan</string>
-    <string name="report_form_hint">Ceritakan issue yang terjadi di sekitar anda</string>
-    <string name="report_title_hint">Judul Laporan Anda</string>
+    <string name="upload">Send</string>
+    <string name="form_instruction">Please complete all fields</string>
+    <string name="complaint_hint">Type your feedback here</string>
+    <string name="address_hint">Address</string>
     <string name="others">Others</string>
     <string name="general">General</string>
     <string name="avatar">Avatar</string>
+    <string name="kecamatan_hint">Kecamatan</string>
+    <string name="kabupaten_hint">Kabupaten</string>
+    <string name="provinsi_hint">Provinsi</string>
+    <string name="fab_send_feedback_description">Send a feedback</string>
 </resources>
