@@ -27,4 +27,9 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="about_us">About GEDOR</string>
     <string name="term_of_use">Term Of Use</string>
+    <string name="report">Report an Issue</string>
+    <string name="desc_report_form">Laporkan Sekarang !!</string>
+    <string name="title_report">Judul Laporan</string>
+    <string name="report_form_hint">Ceritakan issue yang terjadi di sekitar anda</string>
+    <string name="report_title_hint">Judul Laporan Anda</string>
 </resources>
