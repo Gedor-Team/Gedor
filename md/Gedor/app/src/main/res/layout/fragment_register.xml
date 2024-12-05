@@ -81,6 +81,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/username_hint"
                         style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+                        android:inputType="text"
+                        android:maxLines="1"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
                     
@@ -112,6 +114,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/email_hint"
                         style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -143,6 +147,7 @@
                         android:inputType="textPassword"
                         android:hint="@string/password_hint"
                         style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+                        android:maxLines="1"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -174,6 +179,7 @@
                         android:inputType="textPassword"
                         android:hint="@string/confirm_password_hint"
                         style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+                        android:maxLines="1"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
 
