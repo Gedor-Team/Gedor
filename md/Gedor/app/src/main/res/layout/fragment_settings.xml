@@ -93,6 +93,7 @@
             android:textSize="18sp"
             app:strokeColor="@color/error"
             android:textColor="@color/error"
+            android:gravity="start|center_vertical"
             />
 
         <!-- Lainnya Section -->
@@ -116,6 +117,7 @@
             app:iconGravity="end"
             app:iconSize="25dp"
             android:textSize="18sp"
+            android:gravity="start|center_vertical"
             />
 
         <com.google.android.material.button.MaterialButton
@@ -129,6 +131,7 @@
             app:iconGravity="end"
             app:iconSize="25dp"
             android:textSize="18sp"
+            android:gravity="start|center_vertical"
             />
 
         <com.google.android.material.button.MaterialButton
@@ -142,6 +145,7 @@
             app:iconGravity="end"
             app:iconSize="25dp"
             android:textSize="18sp"
+            android:gravity="start|center_vertical"
             />
     </LinearLayout>
 </ScrollView>
