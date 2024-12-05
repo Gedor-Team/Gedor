@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_complaints, R.id.navigation_account
+                R.id.navigation_home, R.id.navigation_complaints, R.id.navigation_setting
             )
         )
 
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.navigation_home -> navView.visibility = View.VISIBLE
                 R.id.navigation_complaints -> navView.visibility = View.VISIBLE
-                R.id.navigation_account -> navView.visibility = View.VISIBLE
+                R.id.navigation_setting -> navView.visibility = View.VISIBLE
                 else -> navView.visibility = View.GONE
             }
         }

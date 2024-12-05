@@ -23,6 +23,18 @@
         tools:layout="@layout/fragment_complaint" />
 
     <fragment
+        android:id="@+id/navigation_setting"
+        android:name="com.gedorteam.gedor.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_login_fragment"
+            app:destination="@id/login_fragment"
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
         android:id="@+id/navigation_account"
         android:name="com.gedorteam.gedor.ui.account.AccountFragment"
         android:label="@string/title_account"
@@ -60,15 +72,6 @@
             app:launchSingleTop="false"
             app:popUpTo="@id/login_fragment"
             app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/navigation_setting"
-        android:name="com.gedorteam.gedor.ui.settings.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
-        <action
-            android:id="@+id/action_settingsFragment_to_login_fragment"
-            app:destination="@id/login_fragment" />
     </fragment>
 
 </navigation>

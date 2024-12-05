@@ -32,4 +32,7 @@
     <string name="title_report">Judul Laporan</string>
     <string name="report_form_hint">Ceritakan issue yang terjadi di sekitar anda</string>
     <string name="report_title_hint">Judul Laporan Anda</string>
+    <string name="others">Others</string>
+    <string name="general">General</string>
+    <string name="avatar">Avatar</string>
 </resources>
