@@ -2,6 +2,7 @@ import json
 import tensorflow as tf
 import numpy as np
 from flask import Flask, request, jsonify
+from flask_restx import Api, Resource, fields
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 import re
 import pickle
@@ -15,6 +16,38 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
+api = Api(app, version="1.0.0", title="Gedor Models API", description="API for Gedor Classification Models")
+
+# Define namespace
+ns = api.namespace('models', description='Gedor Classification Model')
+
+# Define request and response models
+complaint_input_model = api.model('ComplaintInput', {
+    'input': fields.String(required=True, description='Input text to predict', example="Pabrik di daerah situ menghasilkan asap yg bikin polusi tambah parah"),
+})
+
+complaint_response_model = api.model('ComplaintResponse', {
+    'message': fields.String(description='Result message', example='Prediction successful'),
+    'predictions': fields.Boolean(description='Whether the input is a complaint', example=True),
+    'success': fields.Boolean(description='Success status', example=True),
+})
+
+# Define request and response models
+category_input_model = api.model('CategoryInput', {
+    'input': fields.String(required=True, description='Input text to predict category', example="Polusi udara di sekitar kantor"),
+})
+
+category_response_model = api.model('CategoryResponse', {
+    'message': fields.String(description='Result message', example='Prediction successful'),
+    'predictions': fields.String(description='Predicted category', example='polusi'),
+    'success': fields.Boolean(description='Success status', example=True),
+})
+
+error_response_model = api.model('ErrorResponse', {
+    'message': fields.String(description='Error message', example='Server error'),
+    'success': fields.Boolean(description='Success status', example=False),
+    'error': fields.String(description='Error details', example='Error message goes here'),
+})
 
 # Load stopwords and word_index.json
 with open('utils/stop_words.json', 'r', encoding='utf-8') as f:
@@ -75,79 +108,85 @@ def preprocess_complaint(complaint):
     tokenized_complaint = tokenize_complaint(cleaned_complaint)
     return tokenized_complaint
 
-# Route for predicting with the complaint detector model
-@app.route('/models/complaint', methods=['POST'])
-def predict_complaint():
-    try:
-        data = request.get_json()
-        input_complaint = data.get('input')
-        if not input_complaint:
-            logger.warning("No input data provided")
-            return jsonify({'success': False, 'message': 'Input data is required'}), 400
-        
-        if not isinstance(input_complaint, str):
-            logger.warning("Invalid input type: expected string")
-            return jsonify({'success': False, 'message': 'Input must be a string'}), 400
+# Define resource
+@ns.route('/complaint')
+class ComplaintPrediction(Resource):
+    @ns.expect(complaint_input_model)
+    @ns.response(201, 'Complaint processed successfully', complaint_response_model)
+    @ns.response(400, 'Invalid input', error_response_model)
+    @ns.response(500, 'Server error', error_response_model)
+    def post(self):
+        """Predict whether the input is a complaint or not"""
+        try:
+            data = request.get_json()
+            input_complaint = data.get('input')
 
-        preprocessed_complaint = preprocess_complaint(input_complaint)
+            if not input_complaint:
+                return {'success': False, 'message': 'Input data is required'}, 400
 
-        if not preprocessed_complaint:
-            logger.warning("Preprocessed complaint is empty")
-            return jsonify({'success': False, 'message': 'Invalid input data'}), 400
+            if not isinstance(input_complaint, str):
+                return {'success': False, 'message': 'Input must be a string'}, 400
 
-        input_tensor = np.array([preprocessed_complaint])
+            # Preprocess the complaint text (replace with actual logic)
+            preprocessed_complaint = preprocess_complaint(input_complaint)
 
-        predictions = complaint_model.predict(input_tensor).tolist()
+            if not preprocessed_complaint:
+                return {'success': False, 'message': 'Invalid input data'}, 400
 
-        # Convert predictions to True/False based on threshold
-        thresholded_predictions = [pred >= 0.5 for pred in predictions[0]]
+            input_tensor = np.array([preprocessed_complaint])
 
-        logger.info("Complaint prediction successful")
-        return jsonify({
-            'success': True,
-            'message': 'Prediction successful',
-            'predictions': thresholded_predictions[0]
-        })
+            # Mock prediction for example
+            probability = complaint_model.predict(input_tensor).tolist()
+            predictions = [pred >= 0.4 for pred in probability[0]]
 
-    except Exception as e:
-        logger.error(f"Error during complaint prediction: {e}")
-        return jsonify({'success': False, 'message': 'Server error', 'error': str(e)}), 500
+            return {
+                'message': 'Prediction successful',
+                'predictions': predictions[0],
+                'success': True,
+            }, 201
 
-# Route for predicting with the category detector model
-@app.route('/models/category', methods=['POST'])
-def predict_category():
-    try:
-        data = request.get_json()
-        input_complaint = data.get('input')
-        if not input_complaint:
-            logger.warning("No input data provided")
-            return jsonify({'success': False, 'message': 'Input data is required'}), 400
-        
-        if not isinstance(input_complaint, str):
-            logger.warning("Invalid input type: expected string")
-            return jsonify({'success': False, 'message': 'Input must be a string'}), 400
+        except Exception as e:
+            return {'success': False, 'message': 'Server error', 'error': str(e)}, 500
 
-        cleaned_complaint = clean_complaint(input_complaint)
+# Complaint Category Route
+@ns.route('/category')
+class CategoryPrediction(Resource):
+    @ns.expect(category_input_model)
+    @ns.response(201, 'Prediction successful', category_response_model)
+    @ns.response(400, 'Invalid input', error_response_model)
+    @ns.response(500, 'Server error', error_response_model)
+    def post(self):
+        """Predict the category of a given complaint"""
+        try:
+            data = request.get_json()
+            input_complaint = data.get('input')
 
-        if not cleaned_complaint:
-            logger.warning("Cleaned complaint is empty")
-            return jsonify({'success': False, 'message': 'Invalid input data'}), 400
+            if not input_complaint:
+                return {'success': False, 'message': 'Input data is required'}, 400
 
-        # Transform the preprocessed input using the vectorizer
-        input_vectorized = count_vectorizer.transform([cleaned_complaint])
+            if not isinstance(input_complaint, str):
+                return {'success': False, 'message': 'Input must be a string'}, 400
 
-        predictions = category_model.predict_proba(input_vectorized).tolist()
+            cleaned_complaint = clean_complaint(input_complaint)
 
-        # Get the index of the class with the highest probability
-        max_prediction_index = int(np.argmax(predictions[0]))
+            if not cleaned_complaint:
+                return {'success': False, 'message': 'Invalid input data'}, 400
 
-        logger.info("Category prediction successful")
-        return jsonify({
-            'success': True,
-            'message': 'Prediction successful',
-            'predictions': category[max_prediction_index]
-        })
+            # Mock vectorizer and prediction logic
+            input_vectorized = count_vectorizer.transform([cleaned_complaint])  # Replace with real logic
+            predictions = category_model.predict_proba(input_vectorized).tolist()
+            max_prediction_index = int(np.argmax(predictions[0]))
 
-    except Exception as e:
-        logger.error(f"Error during category prediction: {e}")
-        return jsonify({'success': False, 'message': 'Server error', 'error': str(e)}), 500
+            logger.info("Category prediction successful")
+            return {
+                'success': True,
+                'message': 'Prediction successful',
+                'predictions': category[max_prediction_index],
+            }, 201
+
+        except Exception as e:
+            logger.error(f"Error during category prediction: {e}")
+            return {'success': False, 'message': 'Server error', 'error': str(e)}, 500
+
+# Add namespace to the API
+api.add_namespace(ns, path='/models')
