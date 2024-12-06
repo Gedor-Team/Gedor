@@ -12,9 +12,10 @@ Before you start, ensure that you have the following installed on your system:
 ## Installation Steps
 
 1. **Install Node.js**  
-Download and install Node.js from the [official website](https://nodejs.org/). This will also install npm (Node Package Manager).
+   Download and install Node.js from the [official website](https://nodejs.org/). This will also install npm (Node Package Manager).
 
-2. **Install Dependencies**  
+2. **Install Dependencies**
+
 ```bash
 npm install
 ```

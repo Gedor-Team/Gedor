@@ -1,5 +1,5 @@
-const User = require('../models/userModel'); // Import User model from Sequelize models
-const bcrypt = require('bcrypt');
+const User = require("../models/userModel"); // Import User model from Sequelize models
+const bcrypt = require("bcrypt");
 
 const userController = {
   // Add a new user
@@ -9,24 +9,27 @@ const userController = {
 
       // Validate required fields (basic example)
       if (!username || !password || !phoneNumber) {
-        return res.status(400).json({ success: false, message: "All fields are required" });
+        return res
+          .status(400)
+          .json({ success: false, message: "All fields are required" });
       }
 
       // Validate email with regex
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation regex
       if (!emailRegex.test(email)) {
-        return res.status(400).json({ 
-          success: false, 
-          message: "Invalid email format" 
+        return res.status(400).json({
+          success: false,
+          message: "Invalid email format",
         });
       }
 
       // Validate phone number
       const phoneRegex = /^[0-9]{10,15}$/; // Accepts phone numbers with 10-15 digits
       if (!phoneRegex.test(phoneNumber)) {
-        return res.status(400).json({ 
-          success: false, 
-          message: "Invalid phone number format. It should contain 10-15 digits." 
+        return res.status(400).json({
+          success: false,
+          message:
+            "Invalid phone number format. It should contain 10-15 digits.",
         });
       }
 
@@ -64,7 +67,9 @@ const userController = {
       const users = await User.findAll(); // Sequelize's findAll method for retrieving all records
 
       if (!users.length) {
-        return res.status(404).json({ success: false, message: "No users found" });
+        return res
+          .status(404)
+          .json({ success: false, message: "No users found" });
       }
 
       res.status(200).json({
@@ -111,7 +116,7 @@ const userController = {
   getUserByUsername: async (req, res) => {
     try {
       const user_name = req.params.username;
-      const user = await User.findOne({ where: {username: user_name}});
+      const user = await User.findOne({ where: { username: user_name } });
 
       if (!user) {
         return res.status(404).json({
@@ -123,7 +128,7 @@ const userController = {
       res.status(200).json({
         success: true,
         data: user,
-      });            
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({
@@ -165,7 +170,8 @@ const userController = {
         if (!phoneRegex.test(updatedUserData.phoneNumber)) {
           return res.status(400).json({
             success: false,
-            message: "Invalid phone number format. It should contain 10-15 digits.",
+            message:
+              "Invalid phone number format. It should contain 10-15 digits.",
           });
         }
       }
@@ -212,10 +218,10 @@ const userController = {
         });
       }
 
-        res.status(200).json({
-          success: true,
-          message: "User deleted successfully",
-        });
+      res.status(200).json({
+        success: true,
+        message: "User deleted successfully",
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({

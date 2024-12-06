@@ -1,25 +1,37 @@
-const Complaint= require('../models/complaintModel'); // Import Complaint model from Sequelize models
+const Complaint = require("../models/complaintModel"); // Import Complaint model from Sequelize models
 
 const complaintController = {
   // Add a new complaint
   addComplaint: async (req, res) => {
     try {
-      const { userID, govID, complaint, category, status, lokasi, kecamatan, kabupaten, provinsi } = req.body;
+      const {
+        userID,
+        govID,
+        complaint,
+        category,
+        status,
+        lokasi,
+        kecamatan,
+        kabupaten,
+        provinsi,
+      } = req.body;
 
       // Make sure userID and govID are passed in the request
       if (!userID || !govID) {
-        return res.status(400).json({ message: "userID and govID are required" });
+        return res
+          .status(400)
+          .json({ message: "userID and govID are required" });
       }
 
       const newComplaint = await Complaint.create({
-        userID, 
-        govID, 
-        complaint, 
-        category, 
-        status, 
-        lokasi, 
-        kecamatan, 
-        kabupaten, 
+        userID,
+        govID,
+        complaint,
+        category,
+        status,
+        lokasi,
+        kecamatan,
+        kabupaten,
         provinsi,
       });
 
@@ -65,7 +77,7 @@ const complaintController = {
     try {
       const complaintId = req.params.complaintID; // Assume the ID is passed as a route parameter
       const complaint = await Complaint.findOne({
-        where: { complaintID: complaintId }
+        where: { complaintID: complaintId },
         // include: [
         //   {
         //     model: sequelize.models.User, // Include the User associated with the complaint
@@ -100,7 +112,7 @@ const complaintController = {
     try {
       const userId = req.params.userID; // Assume the userID is passed as a route parameter
       const complaints = await Complaint.findAll({
-        where: { userID: userId }
+        where: { userID: userId },
         // include: [
         //   {
         //     model: sequelize.models.User, // Include the User associated with each complaint
@@ -114,7 +126,9 @@ const complaintController = {
       });
 
       if (!complaints || complaints.length === 0) {
-        return res.status(404).json({ message: "No complaints found for this user" });
+        return res
+          .status(404)
+          .json({ message: "No complaints found for this user" });
       }
 
       res.status(200).json({ success: true, data: complaints });
@@ -133,7 +147,7 @@ const complaintController = {
     try {
       const govId = req.params.govID; // Assume the govID is passed as a route parameter
       const complaints = await Complaint.findAll({
-        where: { govID: govId }
+        where: { govID: govId },
         // include: [
         //   {
         //     model: sequelize.models.User, // Include the User associated with each complaint
@@ -147,7 +161,9 @@ const complaintController = {
       });
 
       if (!complaints || complaints.length === 0) {
-        return res.status(404).json({ message: "No complaints found for this government" });
+        return res
+          .status(404)
+          .json({ message: "No complaints found for this government" });
       }
 
       res.status(200).json({ success: true, data: complaints });
@@ -176,7 +192,7 @@ const complaintController = {
       }
 
       const updatedComplaint = await Complaint.findOne({
-        where: { complaintID: complaintId }
+        where: { complaintID: complaintId },
         // include: [
         //   {
         //     model: sequelize.models.User, // Include the User associated with the updated complaint

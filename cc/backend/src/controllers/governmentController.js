@@ -1,32 +1,43 @@
-const Government = require('../models/governmentModel'); // Import Government model from Sequelize models
-const bcrypt = require('bcrypt');
+const Government = require("../models/governmentModel"); // Import Government model from Sequelize models
+const bcrypt = require("bcrypt");
 
 const governmentController = {
   // Add a new government
   addGovernment: async (req, res) => {
     try {
-      const { username, password, name, address, phoneNumber, email } = req.body;
+      const { username, password, name, address, phoneNumber, email } =
+        req.body;
 
       // Validate required fields (basic example)
-      if (!username || !password || !name || !phoneNumber || !email || !address) {
-        return res.status(400).json({ success: false, message: "All fields are required" });
+      if (
+        !username ||
+        !password ||
+        !name ||
+        !phoneNumber ||
+        !email ||
+        !address
+      ) {
+        return res
+          .status(400)
+          .json({ success: false, message: "All fields are required" });
       }
 
       // Validate email with regex
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation regex
       if (!emailRegex.test(email)) {
-        return res.status(400).json({ 
-          success: false, 
-          message: "Invalid email format" 
+        return res.status(400).json({
+          success: false,
+          message: "Invalid email format",
         });
       }
 
       // Validate phone number
       const phoneRegex = /^[0-9]{10,15}$/; // Accepts phone numbers with 10-15 digits
       if (!phoneRegex.test(phoneNumber)) {
-        return res.status(400).json({ 
-          success: false, 
-          message: "Invalid phone number format. It should contain 10-15 digits." 
+        return res.status(400).json({
+          success: false,
+          message:
+            "Invalid phone number format. It should contain 10-15 digits.",
         });
       }
 
@@ -82,7 +93,9 @@ const governmentController = {
   getGovernmentById: async (req, res) => {
     try {
       const governmentId = req.params.govID; // Assume the ID is passed as a route parameter
-      const government = await Government.findOne({ where: { govID: governmentId } }); // Sequelize's findOne with a condition
+      const government = await Government.findOne({
+        where: { govID: governmentId },
+      }); // Sequelize's findOne with a condition
 
       if (!government) {
         return res
@@ -107,7 +120,9 @@ const governmentController = {
   getGovernmentByUsername: async (req, res) => {
     try {
       const user_name = req.params.username; // Assume the ID is passed as a route parameter
-      const government = await Government.findOne({ where: { username: user_name } }); // Sequelize's findOne with a condition
+      const government = await Government.findOne({
+        where: { username: user_name },
+      }); // Sequelize's findOne with a condition
 
       if (!government) {
         return res
@@ -152,7 +167,8 @@ const governmentController = {
         if (!phoneRegex.test(updatedUserData.phoneNumber)) {
           return res.status(400).json({
             success: false,
-            message: "Invalid phone number format. It should contain 10-15 digits.",
+            message:
+              "Invalid phone number format. It should contain 10-15 digits.",
           });
         }
       }
@@ -165,7 +181,9 @@ const governmentController = {
         return res.status(404).json({ message: "Government not found" });
       }
 
-      const updatedGovernment = await Government.findOne({ where: { govID: governmentId } }); // Fetch updated record
+      const updatedGovernment = await Government.findOne({
+        where: { govID: governmentId },
+      }); // Fetch updated record
       res.status(200).json({
         success: true,
         message: "Government updated successfully",

@@ -1,9 +1,9 @@
-const { DataTypes } = require('sequelize'); // Import Sequelize and DataTypes
-const sequelize = require('../database/connection'); // Import your Sequelize connection
+const { DataTypes } = require("sequelize"); // Import Sequelize and DataTypes
+const sequelize = require("../database/connection"); // Import your Sequelize connection
 
 // Define the Complaint model
 const Complaint = sequelize.define(
-  'Complaint',
+  "Complaint",
   {
     complaintID: {
       type: DataTypes.INTEGER,
@@ -15,21 +15,21 @@ const Complaint = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'Users', // Reference the Users table
-        key: 'userID',
+        model: "Users", // Reference the Users table
+        key: "userID",
       },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
+      onUpdate: "CASCADE",
+      onDelete: "SET NULL",
     },
     govID: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'Governments', // Reference the Governments table
-        key: 'govID',
+        model: "Governments", // Reference the Governments table
+        key: "govID",
       },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
+      onUpdate: "CASCADE",
+      onDelete: "SET NULL",
     },
     complaint: {
       type: DataTypes.STRING,
@@ -62,32 +62,32 @@ const Complaint = sequelize.define(
   },
   {
     timestamps: true, // Automatically includes `createdAt` and `updatedAt`
-    tableName: 'Complaints', // Explicit table name
-  }
+    tableName: "Complaints", // Explicit table name
+  },
 );
 
 // Define associations
 Complaint.associate = (models) => {
   // Associate Complaint with User
   Complaint.belongsTo(models.User, {
-    foreignKey: 'userID',
-    as: 'user', // Optional alias
+    foreignKey: "userID",
+    as: "user", // Optional alias
   });
 
   // Associate Complaint with Government
   Complaint.belongsTo(models.Government, {
-    foreignKey: 'govID',
-    as: 'government', // Optional alias
+    foreignKey: "govID",
+    as: "government", // Optional alias
   });
 };
 
 // Sync the model with the database (in dev mode, using `force: true` will recreate tables)
 (async () => {
   try {
-      await sequelize.sync({ force: false }); // Use force: false for safe table creation in production
-      console.log("Complaint model synced successfully!");
+    await sequelize.sync({ force: false }); // Use force: false for safe table creation in production
+    console.log("Complaint model synced successfully!");
   } catch (error) {
-      console.error("Error syncing User model:", error);
+    console.error("Error syncing User model:", error);
   }
 })();
 
