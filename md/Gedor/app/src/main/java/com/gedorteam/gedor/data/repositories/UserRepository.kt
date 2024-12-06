@@ -2,19 +2,27 @@ package com.gedorteam.gedor.data.repositories
 
 import android.util.Log
 import androidx.lifecycle.liveData
+import com.gedorteam.gedor.data.response.RegisterResponse
 import com.gedorteam.gedor.data.retrofit.ApiService
+import com.google.gson.Gson
+import okhttp3.RequestBody
+import retrofit2.HttpException
 
 class UserRepository private constructor(private val apiService: ApiService) {
 
-    fun register(username: String, email: String, password: String, phoneNumber: String) = liveData {
+    fun register(requestBody: RequestBody) = liveData {
+
         emit(Result.Loading)
         try {
-            val response = apiService.register(username, email, password, phoneNumber)
+            val response = apiService.register(requestBody)
             val result = response.data
             emit(Result.Success(result))
-        } catch (e: Exception) {
+        } catch (e: HttpException) {
             Log.d("UserRepository", "register: ${e.message.toString()}")
-            emit(Result.Error(e.message.toString()))
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, RegisterResponse::class.java)
+            val errorMessage = errorBody.message
+            emit(Result.Error(errorMessage ?: "Something wrong"))
         }
     }
 
