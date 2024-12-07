@@ -6,7 +6,7 @@ This is the cloud computing part of our project.
 
 We create 2 apis for this project which are for our CRUD services and our models.
 
-1. CRUD API
+** 1. CRUD API**
 
 This API is stored in the `backend/` folder and it's purpose is to perform CRUD services for our database.
 
@@ -21,7 +21,7 @@ This API is stored in the `backend/` folder and it's purpose is to perform CRUD 
 - Express
 - MySQL
 
-2. Models API
+**2. Models API**
 
 This API is stored in the `deploy/` folder and it's purpose is to perform inference for our complaint detection model and category detection model.
 
