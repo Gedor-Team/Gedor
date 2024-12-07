@@ -25,3 +25,8 @@ npm install
 ```bash
 npm run dev
 ```
+   The server will run in your [local server](http://localhost:8080). 
+
+## API Documentation
+
+   You can read the API documentation after you run the server from [docs](http://localhost:8080/api/docs).
