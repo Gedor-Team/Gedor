@@ -14,7 +14,7 @@ This approach simplifies the process for users by allowing them to submit compla
 
 This is our machine learning workflow:
 
-![ML Workflow](https://drive.google.com/file/d/17fDyNQgYad05aVnwrxHrL5dK3KQCLU-Y/view?usp=sharing "ML Workflow")
+![ML Workflow](https://i.ibb.co.com/kDsRZZG/ml-workflow-drawio.png "ML Workflow")
 
 There are 5 major parts in our machine learning workflow which are Data Gathering, Data Preprocessing, Model Training, Model Evaluation, Model Deployment.
 
