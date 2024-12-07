@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.liveData
 import com.gedorteam.gedor.data.response.LoginErrorResponse
 import com.gedorteam.gedor.data.response.RegisterErrorResponse
-import com.gedorteam.gedor.data.response.RegisterResponse
 import com.gedorteam.gedor.data.retrofit.ApiService
 import com.google.gson.Gson
 import okhttp3.RequestBody
