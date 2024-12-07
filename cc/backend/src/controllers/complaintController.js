@@ -18,9 +18,11 @@ const complaintController = {
 
       // Make sure userID and govID are passed in the request
       if (!userID || !govID) {
-        return res
-          .status(400)
-          .json({ message: "userID and govID are required" });
+        return res.status(400).json({
+          success: false,
+          message: "userID and govID are required",
+          status: 400,
+        });
       }
 
       const newComplaint = await Complaint.create({
@@ -35,13 +37,19 @@ const complaintController = {
         provinsi,
       });
 
-      res.status(201).json(newComplaint);
+      res.status(201).json({
+        success: true,
+        message: "Complaint created successfully",
+        data: newComplaint,
+        status: 201,
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
         message: "Server Error",
         error: error.message || error,
+        status: 500,
       });
     }
   },
@@ -49,25 +57,21 @@ const complaintController = {
   // Get all complaints
   getAllComplaints: async (req, res) => {
     try {
-      const complaints = await Complaint.findAll({
-        // include: [
-        //   {
-        //     model: sequelize.models.User, // Include the User associated with each complaint
-        //     as: 'user',
-        //   },
-        //   {
-        //     model: sequelize.models.Government, // Include the Government associated with each complaint
-        //     as: 'government',
-        //   }
-        // ],
+      const complaints = await Complaint.findAll();
+
+      res.status(200).json({
+        success: true,
+        message: "Complaints retrieved successfully",
+        data: complaints,
+        status: 200,
       });
-      res.status(200).json(complaints);
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
         message: "Server Error",
         error: error.message || error,
+        status: 500,
       });
     }
   },
@@ -78,31 +82,29 @@ const complaintController = {
       const complaintId = req.params.complaintID; // Assume the ID is passed as a route parameter
       const complaint = await Complaint.findOne({
         where: { complaintID: complaintId },
-        // include: [
-        //   {
-        //     model: sequelize.models.User, // Include the User associated with the complaint
-        //     as: 'user',
-        //   },
-        //   {
-        //     model: sequelize.models.Government, // Include the Government associated with the complaint
-        //     as: 'government',
-        //   }
-        // ],
       });
 
       if (!complaint) {
-        return res
-          .status(404)
-          .json({ success: false, message: "Complaint not found" });
+        return res.status(404).json({
+          success: false,
+          message: "Complaint not found",
+          status: 404,
+        });
       }
 
-      res.status(200).json({ success: true, data: complaint });
+      res.status(200).json({
+        success: true,
+        message: "Complaint retrieved successfully",
+        data: complaint,
+        status: 200,
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
         message: "Server Error",
         error: error.message || error,
+        status: 500,
       });
     }
   },
@@ -113,31 +115,29 @@ const complaintController = {
       const userId = req.params.userID; // Assume the userID is passed as a route parameter
       const complaints = await Complaint.findAll({
         where: { userID: userId },
-        // include: [
-        //   {
-        //     model: sequelize.models.User, // Include the User associated with each complaint
-        //     as: 'user',
-        //   },
-        //   {
-        //     model: sequelize.models.Government, // Include the Government associated with each complaint
-        //     as: 'government',
-        //   }
-        // ],
       });
 
       if (!complaints || complaints.length === 0) {
-        return res
-          .status(404)
-          .json({ message: "No complaints found for this user" });
+        return res.status(404).json({
+          success: false,
+          message: "No complaints found for this user",
+          status: 404,
+        });
       }
 
-      res.status(200).json({ success: true, data: complaints });
+      res.status(200).json({
+        success: true,
+        message: "Complaints retrieved successfully",
+        data: complaints,
+        status: 200,
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
         message: "Server Error",
         error: error.message || error,
+        status: 500,
       });
     }
   },
@@ -148,31 +148,29 @@ const complaintController = {
       const govId = req.params.govID; // Assume the govID is passed as a route parameter
       const complaints = await Complaint.findAll({
         where: { govID: govId },
-        // include: [
-        //   {
-        //     model: sequelize.models.User, // Include the User associated with each complaint
-        //     as: 'user',
-        //   },
-        //   {
-        //     model: sequelize.models.Government, // Include the Government associated with each complaint
-        //     as: 'government',
-        //   }
-        // ],
       });
 
       if (!complaints || complaints.length === 0) {
-        return res
-          .status(404)
-          .json({ message: "No complaints found for this government" });
+        return res.status(404).json({
+          success: false,
+          message: "No complaints found for this government",
+          status: 404,
+        });
       }
 
-      res.status(200).json({ success: true, data: complaints });
+      res.status(200).json({
+        success: true,
+        message: "Complaints retrieved successfully",
+        data: complaints,
+        status: 200,
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
         message: "Server Error",
         error: error.message || error,
+        status: 500,
       });
     }
   },
@@ -185,33 +183,33 @@ const complaintController = {
 
       const [updated] = await Complaint.update(updatedComplaintData, {
         where: { complaintID: complaintId },
-      }); // Sequelize's update method
+      });
 
       if (!updated) {
-        return res.status(404).json({ message: "Complaint not found" });
+        return res.status(404).json({
+          success: false,
+          message: "Complaint not found",
+          status: 404,
+        });
       }
 
       const updatedComplaint = await Complaint.findOne({
         where: { complaintID: complaintId },
-        // include: [
-        //   {
-        //     model: sequelize.models.User, // Include the User associated with the updated complaint
-        //     as: 'user',
-        //   },
-        //   {
-        //     model: sequelize.models.Government, // Include the Government associated with the updated complaint
-        //     as: 'government',
-        //   }
-        // ],
       });
 
-      res.json(updatedComplaint);
+      res.status(200).json({
+        success: true,
+        message: "Complaint updated successfully",
+        data: updatedComplaint,
+        status: 200,
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
         message: "Server Error",
         error: error.message || error,
+        status: 500,
       });
     }
   },
@@ -222,19 +220,28 @@ const complaintController = {
       const complaintId = req.params.complaintID; // Assume the ID is passed as a route parameter
       const deletedComplaint = await Complaint.destroy({
         where: { complaintID: complaintId },
-      }); // Sequelize's destroy method
+      });
 
       if (!deletedComplaint) {
-        return res.status(404).json({ message: "Complaint not found" });
+        return res.status(404).json({
+          success: false,
+          message: "Complaint not found",
+          status: 404,
+        });
       }
 
-      res.status(200).json({ message: "Complaint deleted successfully" });
+      res.status(200).json({
+        success: true,
+        message: "Complaint deleted successfully",
+        status: 200,
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
         message: "Server Error",
         error: error.message || error,
+        status: 500,
       });
     }
   },
