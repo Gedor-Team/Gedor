@@ -56,6 +56,36 @@ const userController = {
         });
       }
 
+      // Check if username already exists
+      const existingUsername = await User.findOne({ where: { username } });
+      if (existingUsername) {
+        return res.status(409).json({
+          success: false,
+          message: "Username already exists.",
+          status: 409,
+        });
+      }
+
+      // Check if email already exists
+      const existingEmail = await User.findOne({ where: { email } });
+      if (existingEmail) {
+        return res.status(409).json({
+          success: false,
+          message: "Email already exists.",
+          status: 409,
+        });
+      }
+
+      // Check if phone number already exists
+      const existingPhoneNumber = await User.findOne({ where: { phoneNumber } });
+      if (existingPhoneNumber) {
+        return res.status(409).json({
+          success: false,
+          message: "Phone number already exists.",
+          status: 409,
+        });
+      }
+
       // Generate salt and hash the password
       const saltRounds = 10; // Define the cost factor for bcrypt
       const salt = await bcrypt.genSalt(saltRounds);
@@ -203,6 +233,16 @@ const userController = {
             status: 400,
           });
         }
+
+        // Check if email already exists
+        const existingEmail = await User.findOne({ where: { email: updatedUserData.email } });
+        if (existingEmail) {
+          return res.status(409).json({
+            success: false,
+            message: "Email already exists.",
+            status: 409,
+          });
+        }
       }
 
       // Validate phone number if it's being updated
@@ -215,16 +255,36 @@ const userController = {
             status: 400,
           });
         }
+
+        // Check if phone number already exists
+        const existingPhoneNumber = await User.findOne({ where: { phoneNumber: updatedUserData.phoneNumber } });
+        if (existingPhoneNumber) {
+          return res.status(409).json({
+            success: false,
+            message: "Phone number already exists.",
+            status: 409,
+          });
+        }
       }
 
       if (updatedUserData.username) {
         // Validate username with regex
         const usernameRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,12}$/;
-        if (!usernameRegex.test(username)) {
+        if (!usernameRegex.test(updatedUserData.username)) {
           return res.status(400).json({
             success: false,
             status: 400,
             message: "Invalid username format. It must be 8-12 characters long and include both letters and digits.",
+          });
+        }
+
+        // Check if username already exists
+        const existingUsername = await User.findOne({ where: { username: updatedUserData.username } });
+        if (existingUsername) {
+          return res.status(409).json({
+            success: false,
+            message: "Username already exists.",
+            status: 409,
           });
         }
       }
@@ -232,7 +292,7 @@ const userController = {
       if (updatedUserData.password) {
         // Validate password with regex
         const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/;
-        if (!passwordRegex.test(password)) {
+        if (!passwordRegex.test(updatedUserData.password)) {
           return res.status(400).json({
             success: false,
             status: 400,

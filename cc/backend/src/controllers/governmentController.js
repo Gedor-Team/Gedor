@@ -53,6 +53,56 @@ const governmentController = {
         });
       }
 
+      // Check if username already exists
+      const existingUsername = await User.findOne({ where: { username } });
+      if (existingUsername) {
+        return res.status(409).json({
+          success: false,
+          message: "Username already exists.",
+          status: 409,
+        });
+      }
+
+      // Check if email already exists
+      const existingEmail = await User.findOne({ where: { email } });
+      if (existingEmail) {
+        return res.status(409).json({
+          success: false,
+          message: "Email already exists.",
+          status: 409,
+        });
+      }
+
+      // Check if phone number already exists
+      const existingPhoneNumber = await User.findOne({ where: { phoneNumber } });
+      if (existingPhoneNumber) {
+        return res.status(409).json({
+          success: false,
+          message: "Phone number already exists.",
+          status: 409,
+        });
+      }
+
+      // Check if name already exists
+      const existingName = await User.findOne({ where: { name } });
+      if (existingName) {
+        return res.status(409).json({
+          success: false,
+          message: "Name already exists.",
+          status: 409,
+        });
+      }
+
+      // Check if address already exists
+      const existingAddress = await User.findOne({ where: { address } });
+      if (existingAddress) {
+        return res.status(409).json({
+          success: false,
+          message: "Address already exists.",
+          status: 409,
+        });
+      }
+
       const saltRounds = 10;
       const salt = await bcrypt.genSalt(saltRounds)
       const hashedPassword = await bcrypt.hash(password, salt);
@@ -179,6 +229,16 @@ const governmentController = {
             message: "Invalid email format",
           });
         }
+
+        // Check if email already exists
+        const existingEmail = await User.findOne({ where: { email: updatedGovernmentData.email } });
+        if (existingEmail) {
+          return res.status(409).json({
+            success: false,
+            message: "Email already exists.",
+            status: 409,
+          });
+        }
       }
 
       if (updatedGovernmentData.phoneNumber) {
@@ -190,16 +250,35 @@ const governmentController = {
             message: "Invalid phone number format. It should contain 10-15 digits.",
           });
         }
+        // Check if phone number already exists
+        const existingPhoneNumber = await User.findOne({ where: { phoneNumber: updatedGovernmentData.phoneNumber } });
+        if (existingPhoneNumber) {
+          return res.status(409).json({
+            success: false,
+            message: "Phone number already exists.",
+            status: 409,
+          });
+        }
       }
 
       if (updatedGovernmentData.username) {
         // Validate username with regex
         const usernameRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,12}$/;
-        if (!usernameRegex.test(username)) {
+        if (!usernameRegex.test(updatedGovernmentData.username)) {
           return res.status(400).json({
             success: false,
             status: 400,
             message: "Invalid username format. It must be 8-12 characters long and include both letters and digits.",
+          });
+        }
+
+        // Check if username already exists
+        const existingUsername = await User.findOne({ where: { username: updatedGovernmentData.username} });
+        if (existingUsername) {
+          return res.status(409).json({
+            success: false,
+            message: "Username already exists.",
+            status: 409,
           });
         }
       }
@@ -207,11 +286,35 @@ const governmentController = {
       if (updatedGovernmentData.password) {
         // Validate password with regex
         const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/;
-        if (!passwordRegex.test(password)) {
+        if (!passwordRegex.test(updatedGovernmentData.password)) {
           return res.status(400).json({
             success: false,
             status: 400,
             message: "Invalid password format. It must be 8-20 characters long and include both letters and digits.",
+          });
+        }
+      }
+
+      if (updatedGovernmentData.name) {
+        // Check if name already exists
+        const existingName = await User.findOne({ where: { name: updatedGovernmentData.name } });
+        if (existingName) {
+          return res.status(409).json({
+            success: false,
+            message: "Name already exists.",
+            status: 409,
+          });
+        }
+      }
+
+      if (updatedGovernmentData.address) {
+        // Check if address already exists
+        const existingAddress = await User.findOne({ where: { address: updatedGovernmentData.address } });
+        if (existingAddress) {
+          return res.status(409).json({
+            success: false,
+            message: "Address already exists.",
+            status: 409,
           });
         }
       }
