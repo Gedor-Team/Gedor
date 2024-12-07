@@ -21,7 +21,7 @@ This API is stored in the `backend/` folder and it's purpose is to perform CRUD 
 - Express
 - MySQL
 
-## Models API
+### Models API
 
 This API is stored in the `deploy/` folder and it's purpose is to perform inference for our complaint detection model and category detection model.
 
