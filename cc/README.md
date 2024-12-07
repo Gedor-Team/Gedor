@@ -36,4 +36,10 @@ This API is stored in the `deploy/` folder and it's purpose is to perform infere
 
 ## Deployment and Infrastructure
 
+Our Cloud Infrastructure can be seen in this picture below: [Cloud Infrastructure](https://i.ibb.co.com/xM0bFMM/gedor-infra-drawio.png "Cloud Infrastructure")
+
 ## Future Improvements
+
+- We are planning on Building CI/CD pipeline with GithubActions to automate our workflow
+- We are planning on adding CloudCDN and Load Balancing to handle our traffic if our traffic is becoming heavy
+- We are planning to use BigQuery and Looker to make our data analytics easier.
