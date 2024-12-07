@@ -36,7 +36,7 @@ This API is stored in the `deploy/` folder and it's purpose is to perform infere
 
 ## Deployment and Infrastructure
 
-Our Cloud Infrastructure can be seen in this picture below: [Cloud Infrastructure](https://i.ibb.co.com/xM0bFMM/gedor-infra-drawio.png "Cloud Infrastructure")
+Our Cloud Infrastructure can be seen in this picture below: ![Cloud Infrastructure](https://i.ibb.co.com/xM0bFMM/gedor-infra-drawio.png "Cloud Infrastructure")
 
 ## Future Improvements
 
