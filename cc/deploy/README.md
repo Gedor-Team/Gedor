@@ -17,7 +17,19 @@ Download and install Python from the [official website](https://www.python.org/)
 2. **Install Pip**
 Install pip using the installation guide from the [pip documentation website](https://pip.pypa.io/en/stable/installation/).
 
-3. **Install Dependencies**
+3. **Install Virtual Environtmet**
+We need to install this to avoid conflicts between libraries for this project.
+This is how you set up your own virtual environtment
+
+- **Install venv library**
+Use this command to install the venv library
+```bash
+pip install venv
+```
+- **Setup venv**
+You can follow this guide to setup your own virtual environtment with venv [guide](https://www.freecodecamp.org/news/how-to-setup-virtual-environments-in-python/).
+
+4. **Install Dependencies**
 Install all the required python library by typing this command in your terminal.
 ```bash
 pip install -r requirements.txt
