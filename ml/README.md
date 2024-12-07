@@ -18,7 +18,7 @@ This is our machine learning workflow:
 
 There are 5 major parts in our machine learning workflow which are Data Gathering, Data Preprocessing, Model Training, Model Evaluation, Model Deployment.
 
-### Data Gathering
+1.  **Data Gathering**
 
 This is the part where we gather the data needed to build our model from scratch.
 
@@ -26,13 +26,13 @@ Our data is gathered from 2 sources which are Twitter and Google Maps Reviews an
 
 We then combined them and save them in a csv format.
 
-### Data Preprocessing
+2. **Data Preprocessing**
 
 This is the part where we clean and preprocess the data into a more readable format.
 
 There are two part of this which are the preprocessing for our Complaint Detection Model and Category Detection Model.
 
-#### Complaint Detection Model Preprocessing
+- **Complaint Detection Model Preprocessing**
 
 We first clean them from any typo and foreign languages.
 
@@ -40,7 +40,7 @@ We then take a sample of those data and manually labeled them whether that data 
 
 We then clean those samples from noises and stopwords before using those samples as a training data for our first model.
 
-#### Category Detection Model Preprocessing
+- **Category Detection Model Preprocessing**
 
 We first filter the remaining data with the Complaint Detection Model until only complaint remains.
 
@@ -48,33 +48,84 @@ We then fix the miscategorized from those data.
 
 We then clean those data from noises and stopwords before using those data as a training data for our second model.
 
-### Model Training
+3. **Model Training**
 
 We train the training data with many algorithms such as Logistic Regression, SVM, Random Forest, Naive Bayes, XGBoost and Bidirectional LSTM.
 
 We then picked the best result from those algorithms.
 
-#### Complaint Detection Model Training
+- **Complaint Detection Model Training**
 
 In this model, we pick the one that is trained with Bidirectional LSTM because it gives us the best training result.
 
-#### Category Detection Model Training
+- **Category Detection Model Training**
 
 In this model, we pick the one that is trained with XGBoost because it gives us the best training result.
 
-### Model Evaluation
+4. **Model Evaluation**
 
 We continuously evaluate and fine tune both model until it reach the desired performances.
 
 We use two metrics to evaluate our models which are accuracy and F1-Score.
 
-### Model Deployment
+5. **Model Deployment**
 
 After the model is good enough, we then deploy those models on cloud run.
 
 ## Models
 
-We create 2 models for this project which are complaint detection model and category detection model. For more detail, the model part is gonna described inside the `model/` folder. 
+We create 2 models for this project which are complaint detection model and category detection model.
+
+1. **Complaint Detection Model**
+
+This model analyzes user input to determine whether it qualifies as a valid complaint.
+
+Its purpose is to filter out spam inputs and ensure only genuine complaints are processed.
+
+2. **Category Detection Model**
+
+This model categorizes user complaints and assigns them to the appropriate category.
+
+Its purpose is to organize complaints efficiently for better handling and faster resolution.
+
+## How to use 
+
+### Project Setup Guide
+
+This guide will help you set up the necessary environment and dependencies to run the project.
+
+### Prerequisites
+
+Before you start, ensure that you have the following installed on your system:
+
+- **Python** (https://www.python.org/)
+- **pip** 
+
+### Installation Steps
+
+1. **Install Python**  
+Download and install Python from the [official website](https://www.python.org/).
+
+2. **Install Pip**
+Install pip using the installation guide from the [pip documentation website](https://pip.pypa.io/en/stable/installation/).
+
+3. **Install Virtual Environtmet**
+We need to install this to avoid conflicts between libraries for this project.
+This is how you set up your own virtual environtment
+
+- **Install venv library**
+Use this command to install the venv library
+```bash
+pip install venv
+```
+- **Setup venv**
+You can follow this guide to setup your own virtual environtment with venv [guide](https://www.freecodecamp.org/news/how-to-setup-virtual-environments-in-python/).
+
+4. **Install Dependencies**
+Install all the required python library by typing this command in your terminal.
+```bash
+pip install -r requirements.txt
+```
 
 ## Future Improvements
 
