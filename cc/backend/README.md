@@ -8,6 +8,7 @@ Before you start, ensure that you have the following installed on your system:
 
 - **Node.js** (https://nodejs.org/)
 - **npm**
+- **mysql database** 
 
 ## Installation Steps
 
