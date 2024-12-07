@@ -13,7 +13,7 @@ import androidx.navigation.Navigation
 import com.gedorteam.gedor.R
 import com.gedorteam.gedor.data.repositories.Result
 import com.gedorteam.gedor.databinding.FragmentRegisterBinding
-import com.gedorteam.gedor.di.factories.UserAccountViewModelFactory
+import com.gedorteam.gedor.di.factories.RegisterViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.JsonObject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -22,7 +22,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 class RegisterFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
-    private val factory: UserAccountViewModelFactory = UserAccountViewModelFactory.getInstance()
+    private val factory: RegisterViewModelFactory = RegisterViewModelFactory.getInstance()
     private val registerViewModel: RegisterViewModel by viewModels {
         factory
     }

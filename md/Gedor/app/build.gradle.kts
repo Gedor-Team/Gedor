@@ -81,4 +81,7 @@ dependencies {
 
     // datastore preferences
     implementation(libs.androidx.datastore.preferences)
+
+    // bcrypt
+    implementation(libs.bcrypt)
 }
