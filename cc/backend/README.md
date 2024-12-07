@@ -22,11 +22,31 @@ npm install
 
 ## Build Steps
 
+Add your mysql database credential in your .env file before building the app.
+
+### Node.js without docker
+
+Use this command if you want to run it without docker.
 ```bash
 npm run dev
 ```
-   The server will run in your [local server](http://localhost:8080). 
+
+### Docker
+
+Just build the Dockerfile with this command
+
+```bash
+docker build -t gedor-api .
+```
+
+And then run it with this command
+
+```bash
+docker run -d -p 8080:8080 --env-file .env --name gedor-api gedor-api
+```
+
+This will create and docker image and container with name gedor-api 
 
 ## API Documentation
 
-   You can read the API documentation after you run the server from [docs](http://localhost:8080/api/docs).
+   You can read the API documentation after you run the server from /api/docs page [API Docs](http://localhost:8080/api/docs).
