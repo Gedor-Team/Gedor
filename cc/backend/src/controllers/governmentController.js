@@ -54,11 +54,13 @@ const governmentController = {
       }
 
       const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      const salt = await bcrypt.genSalt(saltRounds)
+      const hashedPassword = await bcrypt.hash(password, salt);
 
       const newGovernment = await Government.create({
         username,
         password: hashedPassword,
+        salt,
         name,
         address,
         phoneNumber,

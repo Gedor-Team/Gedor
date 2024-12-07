@@ -58,7 +58,7 @@ const userController = {
 
       // Generate salt and hash the password
       const saltRounds = 10; // Define the cost factor for bcrypt
-      const salt = `$2a$${saltRounds.toString().padStart(2, "0")}$${(await bcrypt.genSalt(saltRounds)).slice(7)}`;
+      const salt = await bcrypt.genSalt(saltRounds);
       const hashedPassword = await bcrypt.hash(password, salt);
 
       const newUser = await User.create({
