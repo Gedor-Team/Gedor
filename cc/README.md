@@ -1,6 +1,8 @@
 # Cloud Computing
 
-This is the cloud computing part of our project.
+This is the cloud computing component of our project. 
+We are developing an integration layer to seamlessly connect our database and machine learning model with our Android application. 
+This bridge ensures efficient data exchange, enabling real-time processing and analytics to enhance the app's functionality and user experience.
 
 ## API
 
