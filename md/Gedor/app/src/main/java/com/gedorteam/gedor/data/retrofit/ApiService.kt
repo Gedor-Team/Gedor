@@ -13,21 +13,15 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ApiService {
-    @GET("complaints")
+    @GET("api/complaints")
     suspend fun getComplaints(): ComplaintResponse
 
-    @POST("complaints")
+    @POST("api/complaints")
     suspend fun uploadComplaint(@Body complaint: RequestBody): ComplaintResponseItem
 
-    @POST("models/complaint")
-    suspend fun predictSpam(@Body complaint: RequestBody): SpamCheckModelResponse
-
-    @POST("models/category")
-    suspend fun predictCategory(@Body complaint: RequestBody): PredictCategoryModelResponse
-
-    @POST("users")
+    @POST("api/users")
     suspend fun register(@Body requestBody: RequestBody): RegisterResponse
 
-    @GET("users/login/{username}")
+    @GET("api/users/login/{username}")
     suspend fun login(@Path("username") username: String): LoginResponse
 }

@@ -10,9 +10,6 @@ data class ErrorResponse(
 	@field:SerializedName("message")
 	val message: String,
 
-	@field:SerializedName("error")
-	val error: String,
-
 	@field:SerializedName("status")
 	val status: Int
 )

@@ -6,11 +6,15 @@ import androidx.lifecycle.liveData
 import com.gedorteam.gedor.data.response.ComplaintResponseItem
 import com.gedorteam.gedor.data.response.ErrorResponse
 import com.gedorteam.gedor.data.retrofit.ApiService
+import com.gedorteam.gedor.data.retrofit.ModelApi
 import com.google.gson.Gson
 import okhttp3.RequestBody
 import retrofit2.HttpException
 
-class ComplaintRepository private constructor(private val apiService: ApiService) {
+class ComplaintRepository private constructor(
+    private val apiService: ApiService,
+    private val modelService: ModelApi
+) {
 
     fun getComplaints(): LiveData<Result<List<ComplaintResponseItem?>?>> = liveData {
         emit(Result.Loading)
@@ -43,7 +47,7 @@ class ComplaintRepository private constructor(private val apiService: ApiService
     fun predictSpam(complaint: RequestBody) = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.predictSpam(complaint)
+            val response = modelService.predictSpam(complaint)
             val prediction = response.predictions
             emit(Result.Success(prediction))
         } catch (e: Exception) {
@@ -60,7 +64,7 @@ class ComplaintRepository private constructor(private val apiService: ApiService
     fun predictCategory(complaint: RequestBody) = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.predictCategory(complaint)
+            val response = modelService.predictCategory(complaint)
             val prediction = response.predictions
             emit(Result.Success(prediction))
         } catch (e: Exception) {
@@ -73,16 +77,16 @@ class ComplaintRepository private constructor(private val apiService: ApiService
         Log.d("ComplaintRepository", "API Error: ${e.message.toString()}")
         val jsonInString = e.response()?.errorBody()?.string()
         val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
-        return Result.Error(errorBody.error)
+        return Result.Error(errorBody.message)
     }
 
     companion object {
         @Volatile
         private var instance: ComplaintRepository? = null
 
-        fun getInstance(apiService: ApiService): ComplaintRepository =
+        fun getInstance(apiService: ApiService, modelService: ModelApi): ComplaintRepository =
             instance ?: synchronized(this) {
-                instance ?: ComplaintRepository(apiService)
+                instance ?: ComplaintRepository(apiService, modelService)
             }.also { instance = it }
     }
 }

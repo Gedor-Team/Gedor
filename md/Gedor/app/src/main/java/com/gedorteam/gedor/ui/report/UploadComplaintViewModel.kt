@@ -15,7 +15,7 @@ class UploadComplaintViewModel(
         complaintRepository.uploadComplaint(complaint)
 
     fun getUserID(): String =
-        runBlocking { loginStatePreference.getUserID().first() ?: "1" }
+        runBlocking { loginStatePreference.getUserID().first() ?: "" }
 
     fun predictSpam(complaint: RequestBody) = complaintRepository.predictSpam(complaint)
 

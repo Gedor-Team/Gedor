@@ -135,7 +135,7 @@ class UploadComplaintFragment : Fragment() {
             val jsonObject = JsonObject()
             jsonObject.apply {
                 addProperty("userID", userID)
-                addProperty("govsID", govsID)
+                addProperty("govID", govsID)
                 addProperty("lokasi", address)
                 addProperty("kecamatan", kecamatan)
                 addProperty("kabupaten", kabupaten)

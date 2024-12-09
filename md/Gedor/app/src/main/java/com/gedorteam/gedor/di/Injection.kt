@@ -10,7 +10,8 @@ import com.gedorteam.gedor.data.retrofit.ApiConfig
 object Injection {
     fun provideComplaintRepository(): ComplaintRepository {
         val apiService = ApiConfig.getApiService()
-        return ComplaintRepository.getInstance(apiService)
+        val modelService = ApiConfig.getModelApiService()
+        return ComplaintRepository.getInstance(apiService, modelService)
     }
 
     fun provideUserRepository(): UserRepository {

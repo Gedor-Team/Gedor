@@ -24,6 +24,7 @@ android {
         properties.load(FileInputStream("local.properties"))
 
         buildConfigField("String", "BASE_URL", "\"${properties.getProperty("BASE_URL")}\"")
+        buildConfigField("String", "MODEL_BASE_URL", "\"${properties.getProperty("MODEL_BASE_URL")}\"")
     }
 
     buildFeatures {
