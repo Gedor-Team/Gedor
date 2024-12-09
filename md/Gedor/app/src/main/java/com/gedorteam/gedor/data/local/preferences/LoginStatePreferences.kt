@@ -8,7 +8,9 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "login_state")
@@ -36,6 +38,14 @@ class LoginStatePreference(private val dataStore: DataStore<Preferences>) {
     fun getUserID(): Flow<String?> {
         return dataStore.data.map { preferences ->
             preferences[USER_ID_KEY]
+        }
+    }
+
+    fun getUserIDSync(): String? {
+        return runBlocking {
+            dataStore.data.map { preferences ->
+                preferences[USER_ID_KEY]
+            }.first()
         }
     }
 

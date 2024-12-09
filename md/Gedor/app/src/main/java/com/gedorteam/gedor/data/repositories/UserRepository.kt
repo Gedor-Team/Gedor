@@ -22,7 +22,7 @@ class UserRepository private constructor(private val apiService: ApiService) {
             Log.d("UserRepository", "register: ${e.message.toString()}")
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, RegisterErrorResponse::class.java)
-            val errorMessage = errorBody.error
+            val errorMessage = errorBody.message
             emit(Result.Error(errorMessage ?: "Something wrong"))
         }
     }

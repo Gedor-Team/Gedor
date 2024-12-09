@@ -28,6 +28,6 @@ interface ApiService {
     @POST("users")
     suspend fun register(@Body requestBody: RequestBody): RegisterResponse
 
-    @POST("users/login/{username}")
+    @GET("users/login/{username}")
     suspend fun login(@Path("username") username: String): LoginResponse
 }
