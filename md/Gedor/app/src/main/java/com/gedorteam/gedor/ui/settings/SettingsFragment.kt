@@ -1,6 +1,5 @@
 package com.gedorteam.gedor.ui.settings
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,10 +12,6 @@ import com.gedorteam.gedor.databinding.FragmentSettingsBinding
 import com.gedorteam.gedor.di.factories.SettingsViewModelFactory
 
 class SettingsFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = SettingsFragment()
-    }
 
     private lateinit var binding: FragmentSettingsBinding
     private lateinit var factory: SettingsViewModelFactory

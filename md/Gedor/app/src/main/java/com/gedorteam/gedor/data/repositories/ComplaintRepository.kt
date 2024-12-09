@@ -31,16 +31,11 @@ class ComplaintRepository private constructor(
     fun uploadComplaint(complaint: RequestBody): LiveData<Result<String>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.uploadComplaint(complaint)
-//            val message = response.message
-            emit(Result.Success("Your feedback has been sent"))
+            apiService.uploadComplaint(complaint)
+            emit(Result.Success("Feedback has been sent successfully"))
         } catch (e: HttpException) {
             Log.d("ComplaintRepository", "uploadComplaint: ${e.message.toString()}")
             emit(handleApiError(e))
-//            val jsonInString = e.response()?.errorBody()?.string()
-//            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
-//            val errorMessage = errorBody.error
-//            emit(Result.Error(errorMessage))
         }
     }
 
@@ -53,11 +48,6 @@ class ComplaintRepository private constructor(
         } catch (e: Exception) {
             Log.d("ComplaintRepository", "predictSpam: ${e.message.toString()}")
             emit(Result.Error(e.message.toString()))
-//            handleApiError(e)
-//            val jsonInString = e.response()?.errorBody()?.string()
-//            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
-//            val errorMessage = errorBody.error
-//            emit(Result.Error(errorMessage))
         }
     }
 

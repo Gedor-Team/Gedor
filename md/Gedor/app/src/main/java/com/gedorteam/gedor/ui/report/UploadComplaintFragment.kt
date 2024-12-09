@@ -1,6 +1,5 @@
 package com.gedorteam.gedor.ui.report
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,7 +18,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import com.gedorteam.gedor.data.repositories.Result
 import com.google.android.material.snackbar.Snackbar
-import okhttp3.RequestBody
 
 class UploadComplaintFragment : Fragment() {
 
@@ -73,7 +71,7 @@ class UploadComplaintFragment : Fragment() {
         val requestBody = jsonObject.toString()
             .toRequestBody("application/json".toMediaTypeOrNull())
 
-        viewModel.predictSpam(requestBody).observe(viewLifecycleOwner) { response ->
+        viewModel.isSpam(requestBody).observe(viewLifecycleOwner) { response ->
             if (response != null) {
                 when (response) {
                     Result.Loading -> {
@@ -86,9 +84,9 @@ class UploadComplaintFragment : Fragment() {
                     is Result.Success -> {
                         val prediction = response.data
                         if (prediction) {
-                            predictComplaintCategory(complaint)
+                            showDialog("Failed", "Your message was flagged as spam and could not be submitted. Please review your input and try again.")
                         } else {
-                            // todo
+                            predictComplaintCategory(complaint)
                         }
                     }
                 }
@@ -160,7 +158,7 @@ class UploadComplaintFragment : Fragment() {
                         }
                         is Result.Success -> {
                             showLoading(false)
-                            showSuccessDialog()
+                            showDialog("Success", "Your complaint has been successfully sent.")
                         }
                     }
                 }
@@ -182,10 +180,10 @@ class UploadComplaintFragment : Fragment() {
         }
     }
 
-    private fun showSuccessDialog() {
+    private fun showDialog(title: String, message: String) {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Success")
-            .setMessage("Your complaint has been successfully sent.")
+        builder.setTitle(title)
+            .setMessage(message)
 
         builder.setPositiveButton("Continue") { dialog, _ ->
             dialog.dismiss()

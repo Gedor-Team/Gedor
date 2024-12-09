@@ -1,6 +1,5 @@
 package com.gedorteam.gedor.ui.login
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher

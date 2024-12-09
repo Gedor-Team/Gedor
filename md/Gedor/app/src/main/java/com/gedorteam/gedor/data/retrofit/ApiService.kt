@@ -3,8 +3,6 @@ package com.gedorteam.gedor.data.retrofit
 import com.gedorteam.gedor.data.response.ComplaintResponse
 import com.gedorteam.gedor.data.response.ComplaintResponseItem
 import com.gedorteam.gedor.data.response.LoginResponse
-import com.gedorteam.gedor.data.response.PredictCategoryModelResponse
-import com.gedorteam.gedor.data.response.SpamCheckModelResponse
 import com.gedorteam.gedor.data.response.RegisterResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
