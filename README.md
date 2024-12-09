@@ -1,5 +1,5 @@
 # Gedor
-A mobile application that enables government agencies to manage public complaints effectively. Users can submit, track, and receive updates on their complaints, with automated sentiment analysis helping prioritize issues for faster responses.
+A mobile application designed to help government agencies streamline the management of public complaints. Users can easily submit complaints, monitor their progress, and receive updates, while the system ensures automated routing for efficient resolution.
 
 ## Overview
 This capstone project is developed to fulfill the mandatory graduation requirements of the Bangkit program. 
