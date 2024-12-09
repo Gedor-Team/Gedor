@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.gedorteam.gedor.R
 import com.gedorteam.gedor.databinding.FragmentLoginBinding
@@ -19,10 +20,8 @@ import com.toxicbakery.bcrypt.Bcrypt
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
-    private val factory: LoginViewModelFactory = LoginViewModelFactory.getInstance(requireActivity().application)
-    private val viewModel: LoginViewModel by viewModels {
-        factory
-    }
+    private lateinit var factory: LoginViewModelFactory
+    private lateinit var viewModel: LoginViewModel
     private var snackBar: Snackbar? = null
 
     override fun onCreateView(
@@ -36,6 +35,9 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        factory = LoginViewModelFactory.getInstance(requireActivity().application)
+        viewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
 
         validateUsername()
         validatePassword()

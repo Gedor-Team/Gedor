@@ -42,6 +42,6 @@ class ComplaintFragment : Fragment() {
     }
 
     private fun redirectToUploadComplaintFragment(){
-        Navigation.findNavController(binding.root).navigate(R.id.action_navigation_complaints_to_upload_complaint_fragment)
+        Navigation.findNavController(view?: View(context)).navigate(R.id.action_navigation_complaints_to_upload_complaint_fragment)
     }
 }

@@ -32,6 +32,12 @@
         android:id="@+id/upload_complaint_fragment"
         android:name="com.gedorteam.gedor.ui.report.UploadComplaintFragment"
         tools:layout="@layout/fragment_upload_complaint">
+
+        <action
+            android:id="@+id/action_upload_complaint_fragment_to_navigation_complaints"
+            app:destination="@id/navigation_complaints"
+            app:popUpTo="@id/navigation_complaints"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
