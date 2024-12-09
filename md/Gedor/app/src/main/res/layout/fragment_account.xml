@@ -7,6 +7,7 @@
     >
 
     <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -43,7 +44,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/ed_edit_username"
+                android:id="@+id/input_layout_edit_username"
                 app:layout_constraintTop_toBottomOf="@id/tv_label_username"
                 android:layout_marginStart="28dp"
                 android:layout_marginEnd="28dp"
@@ -51,6 +52,7 @@
                 app:startIconTint="@color/primary"
                 >
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ed_edit_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textVisiblePassword|textNoSuggestions"
@@ -62,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_label_email"
-                app:layout_constraintTop_toBottomOf="@id/ed_edit_username"
+                app:layout_constraintTop_toBottomOf="@id/input_layout_edit_username"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="12dp"
                 android:layout_marginStart="28dp"
@@ -73,7 +75,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/ed_edit_email"
+                android:id="@+id/input_layout_edit_email"
                 app:layout_constraintTop_toBottomOf="@id/tv_label_email"
                 android:layout_marginStart="28dp"
                 android:layout_marginEnd="28dp"
@@ -81,6 +83,38 @@
                 app:startIconTint="@color/primary"
                 >
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ed_edit_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_label_phone_number"
+                app:layout_constraintTop_toBottomOf="@id/input_layout_edit_email"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="28dp"
+                android:textSize="16sp"
+                android:text="@string/phone_number"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/input_layout_edit_phone_number"
+                app:layout_constraintTop_toBottomOf="@id/tv_label_phone_number"
+                android:layout_marginStart="28dp"
+                android:layout_marginEnd="28dp"
+                app:startIconDrawable="@drawable/outline_phone_24"
+                app:startIconTint="@color/primary"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ed_edit_phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
@@ -93,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_change_password"
                 app:drawableTint="@color/primary"
-                app:layout_constraintTop_toBottomOf="@id/ed_edit_email"
+                app:layout_constraintTop_toBottomOf="@id/input_layout_edit_phone_number"
                 android:layout_marginTop="24dp"
                 android:layout_marginStart="28dp"
                 android:layout_marginEnd="28dp"

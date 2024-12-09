@@ -45,30 +45,16 @@ class LoginStatePreference(private val dataStore: DataStore<Preferences>) {
         }
     }
 
-    fun getUserIDSync(): String? {
-        return runBlocking {
-            dataStore.data.map { preferences ->
-                preferences[USER_ID_KEY]
-            }.first()
-        }
-    }
-
-    fun getUsername(): Flow<String?> {
-        return dataStore.data.map { preferences ->
-            preferences[USERNAME_KEY]
-        }
-    }
-
-    fun getEmail(): Flow<String?> {
-        return dataStore.data.map { preferences ->
-            preferences[EMAIL_KEY]
-        }
-    }
-
-    fun getPhoneNumber(): Flow<String?> {
-        return dataStore.data.map { preferences ->
-            preferences[PHONE_NUMBER_KEY]
-        }
+    fun getUserPreferences(): Flow<UserPreferences> {
+        return dataStore.data
+            .map { preferences ->
+                UserPreferences(
+                    userID = preferences[USER_ID_KEY],
+                    username = preferences[USERNAME_KEY],
+                    email = preferences[EMAIL_KEY],
+                    phoneNumber = preferences[PHONE_NUMBER_KEY]
+                )
+            }
     }
 
     companion object {

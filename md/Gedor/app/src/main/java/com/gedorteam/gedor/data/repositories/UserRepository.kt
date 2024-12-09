@@ -42,6 +42,21 @@ class UserRepository private constructor(private val apiService: ApiService) {
         }
     }
 
+    fun updateUserInfo(userID: String, requestBody: RequestBody) = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.updateUserInfo(userID, requestBody)
+            val result = response.data
+            emit(Result.Success(result))
+        } catch (e: HttpException) {
+            Log.d("UserRepository", "updateUserInfo: ${e.message.toString()}")
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, RegisterErrorResponse::class.java)
+            val errorMessage = errorBody.message
+            emit(Result.Error(errorMessage ?: "Something wrong"))
+        }
+    }
+
     companion object{
         @Volatile
         private var instance: UserRepository? = null

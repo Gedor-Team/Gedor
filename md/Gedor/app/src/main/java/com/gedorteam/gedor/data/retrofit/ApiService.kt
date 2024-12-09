@@ -7,6 +7,7 @@ import com.gedorteam.gedor.data.response.RegisterResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -19,6 +20,9 @@ interface ApiService {
 
     @POST("api/users")
     suspend fun register(@Body requestBody: RequestBody): RegisterResponse
+
+    @PATCH("api/users/{userID}")
+    suspend fun updateUserInfo(@Path("userID") userID: String, @Body requestBody: RequestBody): RegisterResponse
 
     @GET("api/users/login/{username}")
     suspend fun login(@Path("username") username: String): LoginResponse

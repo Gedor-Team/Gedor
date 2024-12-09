@@ -16,7 +16,6 @@ class LoginViewModel(private val userRepository: UserRepository, private val log
         return loginStatePreference.getUserID().asLiveData()
     }
 
-
     fun saveLoginState(userID: String, username: String, email: String, phoneNumber: String) {
         viewModelScope.launch {
             loginStatePreference.saveLoginState(userID, username, email, phoneNumber)

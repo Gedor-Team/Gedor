@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.gedorteam.gedor.R
 import com.gedorteam.gedor.databinding.FragmentSettingsBinding
 import com.gedorteam.gedor.di.factories.SettingsViewModelFactory
+import kotlinx.coroutines.launch
 
 class SettingsFragment : Fragment() {
 
@@ -35,6 +37,20 @@ class SettingsFragment : Fragment() {
         viewModel.getUserIDSync().observe(viewLifecycleOwner) { userID ->
             if (userID.isNullOrEmpty()) {
                 redirectToLoginFragment()
+            } else {
+                viewModel.getUserPreferences()
+
+                lifecycleScope.launch {
+                    viewModel.userPreferences.collect { preferences ->
+                        preferences?.let {
+                            binding.apply {
+                                tvUsername.text = preferences.username
+                                tvEmail.text = preferences.email
+                                tvPhoneNumber.text = preferences.phoneNumber
+                            }
+                        }
+                    }
+                }
             }
         }
 
