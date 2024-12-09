@@ -41,6 +41,12 @@ class LoginFragment : Fragment() {
         validateUsername()
         validatePassword()
 
+        viewModel.getUserIDSync().observe(viewLifecycleOwner) { userID ->
+            if (!userID.isNullOrEmpty()) {
+                toHomeFragment()
+            }
+        }
+
         binding.apply {
             btnLogin.setOnClickListener {
                 login()
@@ -93,7 +99,6 @@ class LoginFragment : Fragment() {
                                 )
                                 progressCircular.visibility = View.GONE
                                 scrollView.alpha = 1F
-                                toHomeFragment()
                             } else {
                                 progressCircular.visibility = View.GONE
                                 scrollView.alpha = 1F

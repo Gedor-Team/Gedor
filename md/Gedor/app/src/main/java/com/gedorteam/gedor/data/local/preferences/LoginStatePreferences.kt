@@ -31,7 +31,11 @@ class LoginStatePreference(private val dataStore: DataStore<Preferences>) {
 
     suspend fun clearLoginState() {
         dataStore.edit { preferences ->
-            preferences.clear()
+//            preferences.clear()
+            preferences.remove(USER_ID_KEY)
+            preferences.remove(USERNAME_KEY)
+            preferences.remove(EMAIL_KEY)
+            preferences.remove(PHONE_NUMBER_KEY)
         }
     }
 
