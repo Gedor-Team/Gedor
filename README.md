@@ -1,4 +1,6 @@
 # Gedor
+![Logo Gedor](https://i.ibb.co.com/rvtPs0S/Logo-fix-GEDOR-2.png "Logo Gedor")
+
 A mobile application designed to help government agencies streamline the management of public complaints. Users can easily submit complaints, monitor their progress, and receive updates, while the system ensures automated routing for efficient resolution.
 
 ## Overview
