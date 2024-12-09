@@ -236,7 +236,12 @@ const swaggerOptions = {
             content: {
               "application/json": {
                 schema: {
-                  $ref: "#/components/schemas/User",
+                  type: "object",
+                  properties: {
+                    username: { type: "string" },
+                    phoneNumber: { type: "string" },
+                    email: { type: "string" },
+                  },
                 },
               },
             },
