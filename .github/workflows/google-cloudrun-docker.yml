@@ -10,7 +10,7 @@ on:
 env:
   REGION: ${{ secrets.REGION }} # Google Cloud region
   PROJECT_ID: ${{ secrets.PROJECT_ID }} # Google Cloud project ID
-  SERVICE: ${{ secrets.SERVICE }} # Cloud Run service name
+  SERVICE: ${{ secrets.MODEL_SERVICE }} # Cloud Run service name
 
 jobs:
   deploy:
