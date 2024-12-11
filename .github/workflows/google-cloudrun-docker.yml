@@ -31,8 +31,6 @@ jobs:
         with:
           token_format: 'access_token'
           credentials_json: ${{ secrets.CREDENTIALS_JSON}}
-          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
 
       # Step 2: Configure Docker Authentication
       - name: 'Docker Auth'
