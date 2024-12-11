@@ -129,7 +129,7 @@ class ComplaintPrediction(Resource):
             if not isinstance(input_complaint, str):
                 return {'success': False, 'message': 'Input must be a string'}, 400
 
-            # Preprocess the complaint text (replace with actual logic)
+            # Preprocess the complaint text (replace with actual logic)s
             preprocessed_complaint = preprocess_complaint(input_complaint)
 
             if not preprocessed_complaint:
