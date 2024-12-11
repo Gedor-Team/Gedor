@@ -41,6 +41,7 @@ env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }} # Google Cloud project ID
   SERVICE: ${{ secrets.SERVICE }} # Cloud Run service name
   WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }} # Workload Identity Provider
+  SERVICE_ACCOUNT_NAME: ${{ secrets.SERVICE_ACCOUNT_NAME}}
 
 jobs:
   deploy:
@@ -62,7 +63,9 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@f112390a2df9932162083945e46d439060d66ec2' # google-github-actions/auth@v2
         with:
+          create_credentials_file: 'true'
           workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ env.SERVICE_ACCOUNT_EMAIL }}'
 
       # BEGIN - Docker auth and build
       #
