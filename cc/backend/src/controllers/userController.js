@@ -76,7 +76,7 @@ const userController = {
         });
       }
 
-      // Check if phone number already exists
+      // Check if phone number already existss
       const existingPhoneNumber = await User.findOne({ where: { phoneNumber } });
       if (existingPhoneNumber) {
         return res.status(409).json({
