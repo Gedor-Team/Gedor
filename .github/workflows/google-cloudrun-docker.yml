@@ -48,13 +48,24 @@ jobs:
           docker build -t "${DOCKER_TAG}" ./cc/deploy
           docker push "${DOCKER_TAG}"
 
+      # - name: Create Service declaration   
+      #   run: |-
+      #     export CONTAINER_IMAGE="${DOCKER_TAG}:${{ inputs.ref }}"
+      #     export SERVICE="${SERVICE}"
+      #     export PROJECT_ID="${PROJECT_ID}"
+      #     export REVISION_TAG="${{ inputs.ref }}"
+      #     export CLOUD_RUN_SA="${{ secrets.SERVICE_ACCOUNT_EMAIL }}"
+      #     export ENVIRONMENT="${{ inputs.environment }}"
+      #     envsubst < ./service-yaml/container.yaml > container-${{ inputs.environment }}.yaml
+      #     cat container-${{ inputs.environment }}.yaml
+
       # Step 4: Deploy to Cloud Run
       - name: 'Deploy to Cloud Run'
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
-          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}:${{ github.sha }}'
+          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}:${{ inputs.ref }}'
 
       # Step 5: Display Cloud Run URL
       - name: 'Show output'
