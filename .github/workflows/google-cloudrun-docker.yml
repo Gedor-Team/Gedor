@@ -44,7 +44,7 @@ jobs:
       # Step 3: Build and Push Docker Image
       - name: 'Build and Push Container'
         run: |-
-          DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}:${{ inputs.ref }}"
+          DOCKER_TAG="us-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}:${{ inputs.ref }}"
           docker build -t "${DOCKER_TAG}" ./cc/deploy
           docker push "${DOCKER_TAG}"
 
