@@ -48,6 +48,10 @@ jobs:
           docker build -t "${DOCKER_TAG}" ./cc/deploy
           docker push "${DOCKER_TAG}"
 
+          # Fetch the image digest after pushing
+          IMAGE_DIGEST=$(gcloud container images describe "${DOCKER_TAG}" --format="value(image_summary.digest)")
+          echo "IMAGE_DIGEST=${IMAGE_DIGEST}" >> $GITHUB_ENV
+
       # - name: Create Service declaration   
       #   run: |-
       #     export CONTAINER_IMAGE="${DOCKER_TAG}:${{ inputs.ref }}"
@@ -65,7 +69,7 @@ jobs:
         with:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
-          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}:sha256:51695e388e930d001d5be534ae14b5f1a5b96828d5c6236694840a3e9a02358a'
+          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}/${{ env.IMAGE_DIGEST }}'
 
       # Step 5: Display Cloud Run URL
       - name: 'Show output'
