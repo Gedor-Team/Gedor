@@ -65,7 +65,7 @@ jobs:
         with:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
-          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}:${{ github.sha }}'
+          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}:sha256:51695e388e930d001d5be534ae14b5f1a5b96828d5c6236694840a3e9a02358a'
 
       # Step 5: Display Cloud Run URL
       - name: 'Show output'
