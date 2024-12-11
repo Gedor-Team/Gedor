@@ -154,7 +154,7 @@ const governmentController = {
     }
   },
 
-  // Get government by ID
+  // Get government by govsID
   getGovernmentById: async (req, res) => {
     try {
       const governmentId = req.params.govID;
