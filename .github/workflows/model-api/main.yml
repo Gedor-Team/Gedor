@@ -86,6 +86,8 @@ name: Build app and create a release in Cloud Deploy
 
 on:
   push:
+    paths:
+      - '../../cc/deploy/**'
     branches:
       - main
 
