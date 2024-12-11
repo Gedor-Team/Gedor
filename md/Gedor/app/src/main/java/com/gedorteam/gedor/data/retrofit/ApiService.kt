@@ -12,8 +12,8 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ApiService {
-    @GET("api/complaints")
-    suspend fun getComplaints(): ComplaintResponse
+    @GET("api/complaints/users/{userID}")
+    suspend fun getComplaints(@Path("userID") userID: Int): ComplaintResponse
 
     @POST("api/complaints")
     suspend fun uploadComplaint(@Body complaint: RequestBody): ComplaintResponseItem

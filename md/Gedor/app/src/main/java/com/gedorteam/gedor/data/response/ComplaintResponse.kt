@@ -4,8 +4,17 @@ import com.google.gson.annotations.SerializedName
 
 data class ComplaintResponse(
 
-	@field:SerializedName("ComplaintResponse")
-	val complaintResponse: List<ComplaintResponseItem?>? = null
+	@field:SerializedName("data")
+	val data: List<ComplaintResponseItem?>? = null,
+
+	@field:SerializedName("success")
+	val success: Boolean? = null,
+
+	@field:SerializedName("message")
+	val message: String? = null,
+
+	@field:SerializedName("status")
+	val status: Int? = null
 )
 
 data class ComplaintResponseItem(
@@ -14,7 +23,7 @@ data class ComplaintResponseItem(
 	val provinsi: String? = null,
 
 	@field:SerializedName("createdAt")
-	val createdAt: String? = null,
+	val createdAt: String,
 
 	@field:SerializedName("complaintID")
 	val complaintID: Int? = null,

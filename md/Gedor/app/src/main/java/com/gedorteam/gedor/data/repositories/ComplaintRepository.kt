@@ -16,11 +16,11 @@ class ComplaintRepository private constructor(
     private val modelService: ModelApi
 ) {
 
-    fun getComplaints(): LiveData<Result<List<ComplaintResponseItem?>?>> = liveData {
+    fun getComplaints(id: Int): LiveData<Result<List<ComplaintResponseItem?>?>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.getComplaints()
-            val complaints = response.complaintResponse
+            val response = apiService.getComplaints(id)
+            val complaints = response.data
             emit(Result.Success(complaints))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))

@@ -41,6 +41,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
@@ -48,6 +49,17 @@
         tools:indeterminate="false"
         tools:visibility="visible"
         android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/empty_or_error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:text="No data found"
+        tools:visibility="visible"
+        />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add_feedback"

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.gedorteam.gedor.data.local.preferences.LoginStatePreference
 import com.gedorteam.gedor.data.repositories.ComplaintRepository
 import com.gedorteam.gedor.di.Injection
+import com.gedorteam.gedor.ui.complaints.ComplaintViewModel
 import com.gedorteam.gedor.ui.report.UploadComplaintViewModel
 
 class ComplaintDataViewModelFactory private constructor(
@@ -17,6 +18,10 @@ class ComplaintDataViewModelFactory private constructor(
         when (modelClass) {
             UploadComplaintViewModel::class.java -> {
                 return UploadComplaintViewModel(complaintRepository, loginStatePreference) as T
+            }
+
+            ComplaintViewModel::class.java -> {
+                return ComplaintViewModel(complaintRepository, loginStatePreference) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
