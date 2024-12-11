@@ -67,7 +67,7 @@ jobs:
           service: ${{ env.SERVICE }}
           region: ${{ env.DEPLOY_REGION }}
           image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}'
-          allow-unauthenticated: true
+          flags: '--allow-unauthenticated'
 
       # Step 5: Display Cloud Run URL
       - name: 'Show output'
