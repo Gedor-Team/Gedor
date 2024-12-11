@@ -69,6 +69,5 @@ It communicates with:
 
 ## Future Improvements
 
-- We are planning on Building CI/CD pipeline with GithubActions to automate our workflow
 - We are planning on adding CloudCDN and Load Balancing to handle our traffic if our traffic is becoming heavy
 - We are planning to use BigQuery and Looker to make our data analytics easier.
