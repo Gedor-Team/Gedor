@@ -69,8 +69,3 @@ jobs:
           region: ${{ env.DEPLOY_REGION }}
           image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}'
           flags: '--allow-unauthenticated'
-
-      # Step 5: Display Cloud Run URL
-      - name: 'Show output'
-        run: |
-          echo "Cloud Run URL: ${{ steps.deploy.outputs.url }}"
