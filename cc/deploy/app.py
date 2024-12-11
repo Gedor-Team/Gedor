@@ -110,7 +110,7 @@ def preprocess_complaint(complaint):
     tokenized_complaint = tokenize_complaint(cleaned_complaint)
     return tokenized_complaint
 
-# Define resourcesss
+# Define resourcessss
 @ns.route('/complaint')
 class ComplaintPrediction(Resource):
     @ns.expect(complaint_input_model)
