@@ -146,7 +146,7 @@ const userController = {
     }
   },
 
-  // Get user by ID
+  // Get user by ID -
   getUserById: async (req, res) => {
     try {
       const userId = req.params.userID; // Assume the ID is passed as a route parameter
