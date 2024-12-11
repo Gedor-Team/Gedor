@@ -44,7 +44,7 @@ jobs:
       - name: 'Build and Push Container'
         run: |-
           DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/${{ env.SERVICE }}:${{ github.sha }}"
-          docker build -t "${DOCKER_TAG}" .
+          docker build -t "${DOCKER_TAG}" ./cc/deploy
           docker push "${DOCKER_TAG}"
 
       # Step 4: Deploy to Cloud Run
