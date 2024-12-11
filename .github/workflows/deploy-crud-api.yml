@@ -34,7 +34,7 @@ on:
     paths:
       - 'cc/backend/**'
     branches:
-      - '"main"'
+      - main
 
 env:
   PROJECT_ID: 'my-project' # TODO: update to your Google Cloud project ID
