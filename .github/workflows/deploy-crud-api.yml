@@ -1,4 +1,4 @@
-name: 'Build and Deploy Model to Cloud Run'
+name: 'Build and Deploy CRUD API service to Cloud Run'
 
 on:
   push:
