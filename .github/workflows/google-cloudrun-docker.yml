@@ -9,6 +9,7 @@ on:
 
 env:
   REGION: ${{ secrets.REGION }} # Google Cloud region
+  DEPLOY_REGION: ${{ secrets.DEPLOY_REGION}}
   PROJECT_ID: ${{ secrets.PROJECT_ID }} # Google Cloud project ID
   SERVICE: ${{ secrets.MODEL_SERVICE }} # Cloud Run service name
   MODEL_REPO: ${{ secrets.MODEL_REPO }}
@@ -64,7 +65,7 @@ jobs:
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
           service: ${{ env.SERVICE }}
-          region: ${{ env.REGION }}
+          region: ${{ env.DEPLOY_REGION }}
           image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}'
 
       # Step 5: Display Cloud Run URL
