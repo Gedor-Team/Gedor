@@ -150,7 +150,7 @@ class ComplaintPrediction(Resource):
         except Exception as e:
             return {'success': False, 'message': 'Server error', 'error': str(e)}, 500
 
-# Complaint Category Routessssssssssssss
+# Complaint Category Routesssssssssssssss
 @ns.route('/category')
 class CategoryPrediction(Resource):
     @ns.expect(category_input_model)
