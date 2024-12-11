@@ -137,7 +137,7 @@ class ComplaintPrediction(Resource):
 
             input_tensor = np.array([preprocessed_complaint])
 
-            # Mock prediction for examplesss
+            # Mock prediction for examplessss
             probability = complaint_model.predict(input_tensor).tolist()
             predictions = [pred >= 0.4 for pred in probability[0]]
 
