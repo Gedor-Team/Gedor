@@ -208,7 +208,7 @@ const userController = {
     }
   },
 
-  // Update user by ID
+  // Update user by userID
   updateUser: async (req, res) => {
     try {
       const userId = req.params.userID; // Assume the ID is passed as a route parameter
