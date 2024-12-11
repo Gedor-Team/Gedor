@@ -41,4 +41,9 @@
     <string name="fab_send_feedback_description">Send a feedback</string>
     <string name="phone_number_hint">Enter phone number</string>
     <string name="phone_number">Phone number</string>
+
+    <!--ni bagian detail complaint-->
+    <string name="tag_report">Tag</string>
+    <string name="title_detail_report">Here Title</string>
+    <string name="cancel">Cancel</string>
 </resources>
