@@ -16,7 +16,7 @@ const userController = {
         });
       }
 
-      // Validate username with regex
+      // Validate username with regexsss
       const usernameRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,12}$/;
       if (!usernameRegex.test(username)) {
         return res.status(400).json({
