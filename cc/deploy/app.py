@@ -79,6 +79,8 @@ category = [
     'hutan'
 ]
 
+
+# test
 # Load the model (modify the path as needed)
 complaint_model = tf.keras.models.load_model('utils/bidirectional_lstm/bidirectional_lstm_model.h5')
 
