@@ -2,7 +2,7 @@ const User = require("../models/userModel"); // Import User model from Sequelize
 const bcrypt = require("bcrypt");
 
 const userController = {
-  // Add a new user
+  // Add a new users
   addUser: async (req, res) => {
     try {
       const { username, password, email, phoneNumber } = req.body;

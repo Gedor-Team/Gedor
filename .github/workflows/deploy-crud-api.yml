@@ -1,33 +1,4 @@
-# This workflow build and push a Docker container to Google Artifact Registry
-# and deploy it on Cloud Run when a commit is pushed to the "main"
-# branch.
-#
-# To configure this workflow:
-#
-# 1. Enable the following Google Cloud APIs:
-#
-#    - Artifact Registry (artifactregistry.googleapis.com)
-#    - Cloud Run (run.googleapis.com)
-#    - IAM Credentials API (iamcredentials.googleapis.com)
-#
-#    You can learn more about enabling APIs at
-#    https://support.google.com/googleapi/answer/6158841.
-#
-# 2. Create and configure a Workload Identity Provider for GitHub:
-#    https://github.com/google-github-actions/auth#preferred-direct-workload-identity-federation.
-#
-#    Depending on how you authenticate, you will need to grant an IAM principal
-#    permissions on Google Cloud:
-#
-#    - Artifact Registry Administrator (roles/artifactregistry.admin)
-#    - Cloud Run Developer (roles/run.developer)
-#
-#    You can learn more about setting IAM permissions at
-#    https://cloud.google.com/iam/docs/manage-access-other-resources
-#
-# 3. Change the values in the "env" block to match your values.
-
-name: 'Build and Deploy to Cloud Run'
+name: 'Build and Deploy Model to Cloud Run'
 
 on:
   push:
@@ -38,63 +9,63 @@ on:
 
 env:
   REGION: ${{ secrets.REGION }} # Google Cloud region
+  DEPLOY_REGION: ${{ secrets.DEPLOY_REGION}}
   PROJECT_ID: ${{ secrets.PROJECT_ID }} # Google Cloud project ID
-  SERVICE: ${{ secrets.SERVICE }} # Cloud Run service name
-  WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }} # Workload Identity Provider
-  SERVICE_ACCOUNT_NAME: ${{ secrets.SERVICE_ACCOUNT_NAME}}
+  SERVICE: ${{ secrets.CRUD_SERVICE }}
+  DEPLOY_SERVICE: ${{ secrets.DEPLOY_CRUD_SERVICE }} # Cloud Run service name
+  MODEL_REPO: ${{ secrets.MODEL_REPO }}
 
 jobs:
   deploy:
     runs-on: 'ubuntu-latest'
-
+  
     permissions:
       contents: 'read'
       id-token: 'write'
 
     steps:
       - name: 'Checkout'
-        uses: 'actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332' # actions/checkout@v4
+        uses: 'actions/checkout@v4'
 
-      # Configure Workload Identity Federation and generate an access token.
-      #
-      # See https://github.com/google-github-actions/auth for more options,
-      # including authenticating via a JSON credentials file.
+      # Step 1: Authenticate to Google Cloud
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@f112390a2df9932162083945e46d439060d66ec2' # google-github-actions/auth@v2
+        uses: 'google-github-actions/auth@v2'
         with:
-          create_credentials_file: 'true'
-          workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
-          service_account: '${{ env.SERVICE_ACCOUNT_EMAIL }}'
+          token_format: 'access_token'
+          credentials_json: ${{ secrets.CREDENTIALS_JSON}}
 
-      # BEGIN - Docker auth and build
-      #
-      # If you already have a container image, you can omit these steps.
+      # Step 2: Configure Docker Authentication
       - name: 'Docker Auth'
-        uses: 'docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567' # docker/login-action@v3
+        uses: 'docker/login-action@v3'
         with:
           username: 'oauth2accesstoken'
-          password: '${{ steps.auth.outputs.auth_token }}'
+          password: '${{ steps.auth.outputs.access_token }}'
           registry: '${{ env.REGION }}-docker.pkg.dev'
 
+      # Step 3: Build and Push Docker Image
       - name: 'Build and Push Container'
         run: |-
-          DOCKER_TAG="$${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}"
-          docker build --tag "${DOCKER_TAG}" .
+          DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}"
+          docker build -t "${DOCKER_TAG}" ./cc/backend
           docker push "${DOCKER_TAG}"
+
+      # - name: Create Service declaration   
+      #   run: |-
+      #     export CONTAINER_IMAGE="${DOCKER_TAG}:${{ inputs.ref }}"
+      #     export SERVICE="${SERVICE}"
+      #     export PROJECT_ID="${PROJECT_ID}"
+      #     export REVISION_TAG="${{ inputs.ref }}"
+      #     export CLOUD_RUN_SA="${{ secrets.SERVICE_ACCOUNT_EMAIL }}"
+      #     export ENVIRONMENT="${{ inputs.environment }}"
+      #     envsubst < ./service-yaml/container.yaml > container-${{ inputs.environment }}.yaml
+      #     cat container-${{ inputs.environment }}.yaml
+
+      # Step 4: Deploy to Cloud Run
       - name: 'Deploy to Cloud Run'
-
-        # END - Docker auth and build
-
-        uses: 'google-github-actions/deploy-cloudrun@33553064113a37d688aa6937bacbdc481580be17' # google-github-actions/deploy-cloudrun@v2
+        uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
-          service: '${{ env.SERVICE }}'
-          region: '${{ env.REGION }}'
-          # NOTE: If using a pre-built image, update the image name below:
-
-          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}'
-      # If required, use the Cloud Run URL output in later steps
-      - name: 'Show output'
-        run: |2-
-
-          echo ${{ steps.deploy.outputs.url }}
+          service: ${{ env.DEPLOY_SERVICE }}
+          region: ${{ env.DEPLOY_REGION }}
+          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}'
+          flags: '--allow-unauthenticated'
