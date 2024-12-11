@@ -11,6 +11,7 @@ env:
   REGION: ${{ secrets.REGION }} # Google Cloud region
   PROJECT_ID: ${{ secrets.PROJECT_ID }} # Google Cloud project ID
   SERVICE: ${{ secrets.MODEL_SERVICE }} # Cloud Run service name
+  MODEL_REPO: ${{ secrets.MODEL_REPO }}
 
 jobs:
   deploy:
@@ -43,7 +44,7 @@ jobs:
       # Step 3: Build and Push Docker Image
       - name: 'Build and Push Container'
         run: |-
-          DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/${{ env.SERVICE }}:${{ github.sha }}"
+          DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}:${{ inputs.ref }}"
           docker build -t "${DOCKER_TAG}" ./cc/deploy
           docker push "${DOCKER_TAG}"
 
