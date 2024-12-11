@@ -36,7 +36,7 @@ const userController = {
         });
       }
 
-      // Validate email with regex
+      // Validate email with regexs
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation regex
       if (!emailRegex.test(email)) {
         return res.status(400).json({
