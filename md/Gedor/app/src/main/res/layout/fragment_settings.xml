@@ -1,192 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.settings.SettingsFragment"
-    >
+    tools:context=".ui.settings.SettingsFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <!-- Header Section -->
-        <LinearLayout
-            android:id="@+id/header_container"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="#DFF6DD"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center">
+            android:background="@color/primaryContainer">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_account"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:id="@+id/profileCard"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="16dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="8dp">
+                app:cardElevation="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintMarginTop="-50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/constraintLayout3">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
                     android:padding="16dp">
 
+                    <!-- Profile Icon -->
                     <ImageView
+                        android:id="@+id/profileIcon"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:backgroundTint="#DFF6DD"
                         android:contentDescription="@string/avatar"
                         android:src="@drawable/baseline_account_circle_24"
-                        android:backgroundTint="#DFF6DD"
-                        app:tint="@color/primary"
-                        android:layout_marginEnd="16dp"
-                        android:scaleType="centerCrop" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintMarginEnd="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/primary" />
 
-                    <LinearLayout
+                    <!-- Email -->
+
+                    <TextView
+                        android:id="@+id/profileName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_marginStart="52dp"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="@tools:sample/full_names"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.045"
+                        app:layout_constraintStart_toEndOf="@+id/profileIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/tv_username"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            tools:text="@tools:sample/full_names"/>
-
-                        <TextView
-                            android:id="@+id/tv_email"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#808080"
-                            android:textSize="14sp"
-                            tools:text="@tools:sample/us_phones" />
-
-                        <TextView
-                            android:id="@+id/tv_phone_number"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#808080"
-                            android:textSize="14sp"
-                            tools:text="@tools:sample/us_phones" />
-                    </LinearLayout>
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/userNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="52dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="sans-serif"
+                        android:text="@tools:sample/us_phones"
+                        android:textColor="#888888"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/profileIcon"
+                        app:layout_constraintStart_toEndOf="@+id/profileIcon" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
-        </LinearLayout>
 
-        <!-- Pengaturan Umum Section -->
-        <TextView
-            android:id="@+id/tv_general"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header_container"
-            android:text="@string/general"
-            android:textSize="16sp"
-            android:layout_marginTop="24dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"/>
+            <!-- second section -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/custom_bg_shape"
+                android:paddingBottom="80dp"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="81dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_general"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            app:cornerRadius="8dp"
-            android:text="@string/logout"
-            app:icon="@drawable/baseline_logout_24"
-            app:iconGravity="end"
-            app:iconTint="@color/error"
-            app:iconSize="25dp"
-            android:textSize="18sp"
-            app:strokeColor="@color/error"
-            android:textColor="@color/error"
-            android:gravity="start|center_vertical"
-            />
 
-        <!-- Lainnya Section -->
-        <TextView
-            android:id="@+id/tv_others"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_logout"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/others"
-            android:textSize="16sp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="8dp" />
+                <!-- Lainnya Section -->
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_privacy_policy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_others"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_marginTop="10dp"
-            app:cornerRadius="8dp"
-            android:text="@string/privacy_policy"
-            app:icon="@drawable/outline_arrow_circle_right_24"
-            app:iconGravity="end"
-            app:iconSize="25dp"
-            android:textSize="18sp"
-            android:gravity="start|center_vertical"
-            />
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="57dp"
+                    android:layout_height="23dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="100dp"
+                    android:text="@string/general"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_term_of_use"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/btn_privacy_policy"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            app:cornerRadius="8dp"
-            android:text="@string/term_of_use"
-            app:icon="@drawable/outline_arrow_circle_right_24"
-            app:iconGravity="end"
-            app:iconSize="25dp"
-            android:textSize="18sp"
-            android:gravity="start|center_vertical"
-            />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_logout"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/logout"
+                    android:textColor="@color/error"
+                    android:textSize="18sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/baseline_logout_24"
+                    app:iconGravity="end"
+                    app:iconSize="25dp"
+                    app:iconTint="@color/error"
+                    app:layout_constraintStart_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    app:strokeColor="@color/error" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_about_us"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/btn_term_of_use"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            app:cornerRadius="8dp"
-            android:text="@string/about_us"
-            app:icon="@drawable/outline_arrow_circle_right_24"
-            app:iconGravity="end"
-            app:iconSize="25dp"
-            android:textSize="18sp"
-            android:gravity="start|center_vertical"
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="116dp"
+                    android:layout_height="21dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/others"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_logout" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_privacy_policy"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/privacy_policy"
+                    android:textSize="18sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/outline_arrow_circle_right_24"
+                    app:iconGravity="end"
+                    app:iconSize="25dp"
+                    app:layout_constraintStart_toStartOf="@+id/textView2"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_term_of_use"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/term_of_use"
+                    android:textSize="18sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/outline_arrow_circle_right_24"
+                    app:iconGravity="end"
+                    app:iconSize="25dp"
+                    app:layout_constraintStart_toStartOf="@+id/textView2"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_privacy_policy" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_about_us"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/about_us"
+                    android:textSize="18sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/outline_arrow_circle_right_24"
+                    app:iconGravity="end"
+                    app:iconSize="25dp"
+                    app:layout_constraintStart_toStartOf="@+id/textView2"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_term_of_use" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_circular"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:indeterminate="true"
+        tools:visibility="visible"
+        tools:indeterminate="false"
+        />
+
+</FrameLayout>
