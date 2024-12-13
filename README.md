@@ -17,6 +17,8 @@ We are developing an integration layer to seamlessly connect our database and ma
 
 ### Mobile Development
 
+For our mobile app development, we implemented MVVM architecture pattern to cleanly separate our app business logic from its user interface. We use Retrofit and Gson to handle JSON parsing and network calls to the API. To manage our app dependencies, we implemented dependency injection manually, where dependencies are explicitly provided and managed within our app’s lifecycle. Coroutines are utilized to ensure efficient background operations without blocking the main thread. We use Material Design 3 component and followed its guideline to build user-friendly and interactive UI. For seamless navigation and better performance, we implemented single activity architecture with Android Jetpack Navigation Component.
+
 For more detail of each part, you can visit each of the part folders that is described below:
 - `ml` for Machine Learning part
 - `cc` for Cloud Computing part
