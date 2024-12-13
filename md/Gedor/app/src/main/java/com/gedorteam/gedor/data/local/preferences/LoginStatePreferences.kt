@@ -45,6 +45,12 @@ class LoginStatePreference(private val dataStore: DataStore<Preferences>) {
         }
     }
 
+    fun getUserIDSync(): String? {
+        return runBlocking {
+            dataStore.data.first()[USER_ID_KEY]
+        }
+    }
+
     fun getUserPreferences(): Flow<UserPreferences> {
         return dataStore.data
             .map { preferences ->

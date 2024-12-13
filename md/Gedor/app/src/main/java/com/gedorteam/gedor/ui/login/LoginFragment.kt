@@ -3,6 +3,7 @@ package com.gedorteam.gedor.ui.login
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,9 @@ class LoginFragment : Fragment() {
     private lateinit var viewModel: LoginViewModel
     private var snackBar: Snackbar? = null
 
+    private var usernameTextWatcher: TextWatcher? = null
+    private var passwordTextWatcher: TextWatcher? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -38,9 +42,6 @@ class LoginFragment : Fragment() {
         factory = LoginViewModelFactory.getInstance(requireActivity().application)
         viewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
 
-        validateUsername()
-        validatePassword()
-
         viewModel.getUserIDSync().observe(viewLifecycleOwner) { userID ->
             if (!userID.isNullOrEmpty()) {
                 toHomeFragment()
@@ -49,13 +50,44 @@ class LoginFragment : Fragment() {
 
         binding.apply {
             btnLogin.setOnClickListener {
-                login()
+                if (edLoginUsername.text.toString().isNotEmpty() &&
+                    inputLayoutLoginUsername.error == null &&
+                    edLoginPassword.text.toString().isNotEmpty() &&
+                    inputLayoutLoginPassword.error == null)
+                {
+                    login()
+                } else {
+                    if (edLoginUsername.text.toString().isEmpty()) {
+                        inputLayoutLoginUsername.error = "This field cannot be empty"
+                    } else {
+                        inputLayoutLoginUsername.error = null
+                    }
+
+                    if (edLoginPassword.text.toString().isEmpty()) {
+                        inputLayoutLoginPassword.error = "This field cannot be empty"
+                    } else {
+                        inputLayoutLoginPassword.error = null
+                    }
+                }
             }
 
             btnSignUp.setOnClickListener {
                 toRegisterFragment()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        validateUsername()
+        validatePassword()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        binding.edLoginUsername.removeTextChangedListener(usernameTextWatcher)
+        binding.edLoginPassword.removeTextChangedListener(passwordTextWatcher)
     }
 
     override fun onDestroyView() {
@@ -87,7 +119,9 @@ class LoginFragment : Fragment() {
                         is Result.Error -> {
                             progressCircular.visibility = View.GONE
                             scrollView.alpha = 1F
-                            showSnackBar(response.error)
+                            if (response.error == "User not found") {
+                                inputLayoutLoginUsername.error = response.error
+                            }
                         }
                         is Result.Success -> {
                             if (isPasswordMatch(password, response.data?.password?.toByteArray())) {
@@ -118,7 +152,7 @@ class LoginFragment : Fragment() {
 
     private fun validateUsername() {
         binding.apply {
-            edLoginUsername.addTextChangedListener(object : TextWatcher {
+            usernameTextWatcher = object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
                     start: Int,
@@ -129,6 +163,7 @@ class LoginFragment : Fragment() {
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    Log.d("asd", "text changed somehow")
                     inputLayoutLoginUsername.isErrorEnabled = true
                     if (s.toString().isNotEmpty()) {
                         inputLayoutLoginUsername.error = null
@@ -142,13 +177,14 @@ class LoginFragment : Fragment() {
                     // Not needed
                 }
 
-            })
+            }
+            edLoginUsername.addTextChangedListener(usernameTextWatcher)
         }
     }
 
     private fun validatePassword() {
         binding.apply {
-            edLoginPassword.addTextChangedListener(object : TextWatcher {
+            passwordTextWatcher = object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
                     start: Int,
@@ -171,7 +207,8 @@ class LoginFragment : Fragment() {
                     // Not needed
                 }
 
-            })
+            }
+            edLoginPassword.addTextChangedListener(passwordTextWatcher)
         }
     }
 
