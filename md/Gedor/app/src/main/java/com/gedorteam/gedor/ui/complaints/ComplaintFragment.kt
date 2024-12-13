@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gedorteam.gedor.R
 import com.gedorteam.gedor.data.repositories.Result
@@ -60,7 +61,7 @@ class ComplaintFragment : Fragment() {
                     is Result.Error -> {
                         showLoading(false)
                         binding.emptyOrErrorMessage.visibility = View.VISIBLE
-                        binding.emptyOrErrorMessage.text = "Something went wrong"
+                        binding.emptyOrErrorMessage.text = "No data found"
                     }
 
                     is Result.Success -> {
@@ -82,5 +83,18 @@ class ComplaintFragment : Fragment() {
         val adapter = ComplaintAdapter()
         adapter.submitList(data)
         binding.rvUserComplaint.adapter = adapter
+
+        adapter.setOnItemClickCallback(object : ComplaintAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: ComplaintResponseItem) {
+//                val bundle = Bundle()
+//                bundle.putParcelable("complaint", data)
+                showSelectedComplaintItem(data)
+            }
+        })
+    }
+
+    private fun showSelectedComplaintItem(data: ComplaintResponseItem) {
+        val toComplaintDetailFragment = ComplaintFragmentDirections.actionNavigationComplaintsToComplaintDetailFragment(data)
+        findNavController().navigate(toComplaintDetailFragment)
     }
 }

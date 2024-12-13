@@ -26,6 +26,20 @@
             android:id="@+id/action_navigation_complaints_to_upload_complaint_fragment"
             app:destination="@id/upload_complaint_fragment"
             />
+        <action
+            android:id="@+id/action_navigation_complaints_to_complaint_detail_fragment"
+            app:destination="@id/complaint_detail_fragment"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/complaint_detail_fragment"
+        android:name="com.gedorteam.gedor.ui.complaint_detail.ComplaintDetailFragment"
+        tools:layout="@layout/fragment_complaint_detail"
+        >
+        <argument
+            android:name="complaint_item"
+            app:argType="com.gedorteam.gedor.data.response.ComplaintResponseItem" />
     </fragment>
 
     <fragment

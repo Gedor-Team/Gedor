@@ -11,8 +11,10 @@ import com.gedorteam.gedor.util.formatDateString
 
 class ComplaintAdapter : ListAdapter<ComplaintResponseItem, ComplaintAdapter.ComplaintViewHolder>(DIFF_CALLBACK) {
 
+    private lateinit var onItemClickCallback: OnItemClickCallback
+
     class ComplaintViewHolder(
-        val binding: ItemComplaintBinding
+        private val binding: ItemComplaintBinding
     ) : RecyclerView.ViewHolder(binding.root){
         fun bind(complaint: ComplaintResponseItem) {
             binding.tvComplaint.text = complaint.complaint
@@ -29,6 +31,18 @@ class ComplaintAdapter : ListAdapter<ComplaintResponseItem, ComplaintAdapter.Com
     override fun onBindViewHolder(holder: ComplaintViewHolder, position: Int) {
         val complaint = getItem(position)
         holder.bind(complaint)
+
+        holder.itemView.setOnClickListener {
+            onItemClickCallback.onItemClicked(complaint)
+        }
+    }
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
+    interface OnItemClickCallback {
+        fun onItemClicked(data: ComplaintResponseItem)
     }
 
     companion object {

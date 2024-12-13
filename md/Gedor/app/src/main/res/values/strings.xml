@@ -48,4 +48,5 @@
     <string name="total_report">Total Report</string>
     <string name="your_report_category">Your report category</string>
     <string name="faq">FAQ</string>
+    <string name="title_detail_report">Report Detail</string>
 </resources>

@@ -1,7 +1,10 @@
 package com.gedorteam.gedor.data.response
 
+import kotlinx.parcelize.Parcelize
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
+@Parcelize
 data class ComplaintResponse(
 
 	@field:SerializedName("data")
@@ -15,8 +18,9 @@ data class ComplaintResponse(
 
 	@field:SerializedName("status")
 	val status: Int? = null
-)
+) : Parcelable
 
+@Parcelize
 data class ComplaintResponseItem(
 
 	@field:SerializedName("provinsi")
@@ -54,4 +58,4 @@ data class ComplaintResponseItem(
 
 	@field:SerializedName("updatedAt")
 	val updatedAt: String? = null
-)
+) : Parcelable

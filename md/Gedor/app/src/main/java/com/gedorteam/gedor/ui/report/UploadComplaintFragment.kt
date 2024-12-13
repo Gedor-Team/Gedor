@@ -84,9 +84,10 @@ class UploadComplaintFragment : Fragment() {
                     is Result.Success -> {
                         val prediction = response.data
                         if (prediction) {
-                            showDialog("Failed", "Your message was flagged as spam and could not be submitted. Please review your input and try again.")
-                        } else {
                             predictComplaintCategory(complaint)
+                        } else {
+                            showLoading(false)
+                            showFailedDialog("Failed", "Your message was flagged as spam and could not be submitted. Please review your input and try again.")
                         }
                     }
                 }
@@ -188,6 +189,18 @@ class UploadComplaintFragment : Fragment() {
         builder.setPositiveButton("Continue") { dialog, _ ->
             dialog.dismiss()
             redirectToComplaintsFragment()
+        }
+
+        builder.create().show()
+    }
+
+    private fun showFailedDialog(title: String, message: String) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(title)
+            .setMessage(message)
+
+        builder.setPositiveButton("Continue") { dialog, _ ->
+            dialog.dismiss()
         }
 
         builder.create().show()
