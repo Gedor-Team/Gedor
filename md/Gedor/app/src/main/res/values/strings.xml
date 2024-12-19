@@ -42,17 +42,12 @@
     <string name="fab_send_feedback_description">Send a feedback</string>
     <string name="phone_number_hint">Enter phone number</string>
     <string name="phone_number">Phone number</string>
-
-    <!-- home -->
-    <string name="main_tag">Welcome, Environmental Warriors!</string>
-    <string name="second_tag">What breakthrough do you want to make today?</string>
-    <string name="create_report">Take Action</string>
-    <string name="check_progress">Stay Updated!</string>
-    <string name="help">Need Help?</string>
-    <string name="greetings">Hai,</string>
-
-    <!-- Detail Complaint-->
-    <string name="title_detail_report">Report Title</string>
-    <string name="tag_report">Report Tag</string>
-    <string name="cancel">Cancel</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="notification">Notification</string>
+    <string name="greeting">Hi, John Doe</string>
+    <string name="total_report">Total Report</string>
+    <string name="your_report_category">Your report category</string>
+    <string name="faq">FAQ</string>
+    <string name="title_detail_report">Report Detail</string>
 </resources>

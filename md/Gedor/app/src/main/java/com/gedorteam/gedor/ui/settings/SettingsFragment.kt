@@ -1,29 +1,24 @@
 package com.gedorteam.gedor.ui.settings
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.gedorteam.gedor.R
 import com.gedorteam.gedor.databinding.FragmentSettingsBinding
+import com.gedorteam.gedor.di.factories.SettingsViewModelFactory
+import kotlinx.coroutines.launch
 
 class SettingsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = SettingsFragment()
-    }
-
     private lateinit var binding: FragmentSettingsBinding
-    private val viewModel: SettingsViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
-    }
+    private lateinit var factory: SettingsViewModelFactory
+    private lateinit var viewModel: SettingsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +30,32 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        factory = SettingsViewModelFactory.getInstance(requireActivity())
+        viewModel = ViewModelProvider(this, factory)[SettingsViewModel::class.java]
+
+        viewModel.getUserIDSync().observe(viewLifecycleOwner) { userID ->
+            if (userID.isNullOrEmpty()) {
+                redirectToLoginFragment()
+            } else {
+                viewModel.getUserPreferences()
+
+                lifecycleScope.launch {
+                    viewModel.userPreferences.collect { preferences ->
+                        preferences?.let {
+                            binding.apply {
+                                tvUsername.text = preferences.username
+                                tvEmail.text = preferences.email
+                                tvPhoneNumber.text = preferences.phoneNumber
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         binding.btnLogout.setOnClickListener {
-            redirectToLoginFragment()
+            showLogoutDialog()
         }
 
         binding.cardAccount.setOnClickListener {
@@ -50,5 +69,22 @@ class SettingsFragment : Fragment() {
 
     private fun redirectToAccountFragment() {
         Navigation.findNavController(view?: View(context)).navigate(R.id.action_navigation_settings_to_account_fragment)
+    }
+
+    private fun showLogoutDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Are you sure you want to log out?")
+            .setMessage("You will be logged out of your account. Do you wish to continue?")
+
+        builder.setPositiveButton("Continue") { dialog, _ ->
+            dialog.dismiss()
+            viewModel.clearPreferences()
+        }
+
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        builder.create().show()
     }
 }

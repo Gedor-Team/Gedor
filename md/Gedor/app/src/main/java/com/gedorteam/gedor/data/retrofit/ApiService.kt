@@ -1,25 +1,29 @@
 package com.gedorteam.gedor.data.retrofit
 
 import com.gedorteam.gedor.data.response.ComplaintResponse
+import com.gedorteam.gedor.data.response.ComplaintResponseItem
+import com.gedorteam.gedor.data.response.LoginResponse
 import com.gedorteam.gedor.data.response.RegisterResponse
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
+import okhttp3.RequestBody
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
-    @GET("complaints")
-    suspend fun getComplaints(): ComplaintResponse
+    @GET("api/complaints/users/{userID}")
+    suspend fun getComplaints(@Path("userID") userID: Int): ComplaintResponse
 
-    @FormUrlEncoded
-    @POST("users")
-    suspend fun register(
-        @Field("username") username: String,
-        @Field("email") email: String,
-        @Field("password") password: String,
-        @Field("phoneNumber") phoneNumber: String
-    ): RegisterResponse
+    @POST("api/complaints")
+    suspend fun uploadComplaint(@Body complaint: RequestBody): ComplaintResponseItem
 
-//    @POST("users")
-//    suspend fun register(username: String, email: String, password: String, phoneNumber: String): RegisterResponse
+    @POST("api/users")
+    suspend fun register(@Body requestBody: RequestBody): RegisterResponse
+
+    @PATCH("api/users/{userID}")
+    suspend fun updateUserInfo(@Path("userID") userID: String, @Body requestBody: RequestBody): RegisterResponse
+
+    @GET("api/users/login/{username}")
+    suspend fun login(@Path("username") username: String): LoginResponse
 }

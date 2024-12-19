@@ -4,6 +4,8 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("androidx.navigation.safeargs.kotlin")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -24,6 +26,7 @@ android {
         properties.load(FileInputStream("local.properties"))
 
         buildConfigField("String", "BASE_URL", "\"${properties.getProperty("BASE_URL")}\"")
+        buildConfigField("String", "MODEL_BASE_URL", "\"${properties.getProperty("MODEL_BASE_URL")}\"")
     }
 
     buildFeatures {
@@ -81,4 +84,7 @@ dependencies {
 
     // datastore preferences
     implementation(libs.androidx.datastore.preferences)
+
+    // bcrypt
+    implementation(libs.bcrypt)
 }

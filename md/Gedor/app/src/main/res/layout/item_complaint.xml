@@ -29,8 +29,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/tv_status_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_date_created"
+            android:textStyle="bold"
+            android:textColor="@color/onSecondaryContainer"
+            android:text="Status:"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/tv_status_label"
+            app:layout_constraintTop_toTopOf="@id/tv_status_label"
+            android:layout_marginStart="5dp"
             android:id="@+id/tv_status"
             android:textStyle="bold"
             android:textColor="@color/onSecondaryContainer"
@@ -42,7 +54,7 @@
             android:layout_height="wrap_content"
             android:minHeight="50dp"
             android:id="@+id/tv_complaint"
-            app:layout_constraintTop_toBottomOf="@id/tv_date_created"
+            app:layout_constraintTop_toBottomOf="@id/tv_status_label"
             android:layout_marginTop="4dp"
             android:textSize="14sp"
             android:maxLines="3"

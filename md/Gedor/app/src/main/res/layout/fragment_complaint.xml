@@ -24,7 +24,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:text="@string/title_complaints"
-                android:textSize="21sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -41,6 +41,7 @@
     </ScrollView>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
@@ -48,4 +49,27 @@
         tools:indeterminate="false"
         tools:visibility="visible"
         android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/empty_or_error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:text="No data found"
+        tools:visibility="visible"
+        />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_add_feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="24dp"
+        android:contentDescription="@string/fab_send_feedback_description"
+        app:srcCompat="@drawable/outline_chat_add_on_24"
+        app:backgroundTint="@color/primaryContainer"
+        app:tint="@color/onPrimaryContainer"
+        />
 </FrameLayout>

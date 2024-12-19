@@ -1,40 +1,64 @@
 package com.gedorteam.gedor.ui.home
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.gedorteam.gedor.R
+import com.gedorteam.gedor.databinding.FragmentHomeBinding
+import com.gedorteam.gedor.di.factories.HomeViewModelFactory
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class HomeFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = HomeFragment()
-    }
+    private lateinit var binding: FragmentHomeBinding
+    private lateinit var factory: HomeViewModelFactory
+    private lateinit var viewModel: HomeViewModel
 
-    private val viewModel: HomeViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
-    }
+    private var username: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        factory = HomeViewModelFactory.getInstance(requireActivity())
+        viewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
+
+        val userID = runBlocking {
+            viewModel.getUserIDSync()
+        }
+
+        if (userID.isNullOrEmpty()) {
+            redirectToLoginFragment()
+        }
+
+        viewModel.loadUserPreferences()
+        lifecycleScope.launch {
+            viewModel.userPreferences.collect { preferences ->
+                preferences?.let {
+                    binding.apply {
+                        username = preferences.username
+                    }
+                }
+            }
+        }
+
+        binding.tvGreeting.text = "Hello, $username"
     }
 
-    private fun redirectToLoginActivity() {
+    private fun redirectToLoginFragment() {
         Navigation.findNavController(view?: View(context)).navigate(R.id.action_navigation_home_to_login_fragment)
     }
 }
