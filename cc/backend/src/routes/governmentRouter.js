@@ -1,22 +1,22 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const governmentController = require('../controllers/governmentController'); // Adjusted to governmentController
+const governmentController = require("../controllers/governmentController"); // Adjusted to governmentController
 
 // Add a new government
-router.post('/', governmentController.addGovernment);
+router.post("/", governmentController.addGovernment);
 
 // Get all governments
-router.get('/', governmentController.getAllGovernment);
+router.get("/", governmentController.getAllGovernment);
 
 // Get government by govID
-router.get('/:govID', governmentController.getGovernmentById);
+router.get("/:govID", governmentController.getGovernmentById);
 
-router.get('/login/:username', governmentController.getGovernmentByUsername);
+router.get("/login/:username", governmentController.getGovernmentByUsername);
 
 // Delete government by govID
-router.delete('/:govID', governmentController.deleteGovernment);
+router.delete("/:govID", governmentController.deleteGovernment);
 
 // Update government by govID
-router.patch('/:govID', governmentController.updateGovernment);
+router.patch("/:govID", governmentController.updateGovernment);
 
 module.exports = router;

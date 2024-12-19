@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.complaints.ComplaintFragment">
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="12dp"
@@ -33,12 +33,12 @@
                 android:id="@+id/rv_user_complaint"
                 app:layout_constraintTop_toBottomOf="@id/tv_title_complaint"
                 android:layout_marginTop="12dp"
-                tools:itemCount="5"
+                tools:itemCount="3"
                 tools:listitem="@layout/item_complaint"
                 tools:visibility="visible"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"

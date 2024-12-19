@@ -18,15 +18,8 @@ RUN pip install -r requirements.txt
 # Copy app code
 COPY . .
 
-# Expose port 5000
-<<<<<<< Updated upstream
+# Expose port 8080
 EXPOSE 5000
 
 # Start the application using Gunicorn
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
-=======
-EXPOSE 8081
-
-# Start the application using Gunicorn
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8081", "app:app"]
->>>>>>> Stashed changes

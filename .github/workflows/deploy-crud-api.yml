@@ -1,0 +1,76 @@
+name: 'Build and Deploy CRUD API service to Cloud Run'
+
+on:
+  push:
+    paths:
+      - 'cc/backend/**'
+    branches:
+      - main
+
+env:
+  REGION: ${{ secrets.REGION }} # Google Cloud region
+  DEPLOY_REGION: ${{ secrets.DEPLOY_REGION}}
+  PROJECT_ID: ${{ secrets.PROJECT_ID }} # Google Cloud project ID
+  SERVICE: ${{ secrets.CRUD_SERVICE }}
+  DEPLOY_SERVICE: ${{ secrets.DEPLOY_CRUD_SERVICE }} # Cloud Run service name
+  MODEL_REPO: ${{ secrets.MODEL_REPO }}
+
+jobs:
+  deploy:
+    runs-on: 'ubuntu-latest'
+  
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@v4'
+
+      # Step 1: Authenticate to Google Cloud
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          token_format: 'access_token'
+          credentials_json: ${{ secrets.CREDENTIALS_JSON}}
+
+      # Step 2: Configure Docker Authentication
+      - name: 'Docker Auth'
+        uses: 'docker/login-action@v3'
+        with:
+          username: 'oauth2accesstoken'
+          password: '${{ steps.auth.outputs.access_token }}'
+          registry: '${{ env.REGION }}-docker.pkg.dev'
+
+      # Step 3: Build and Push Docker Image
+      - name: 'Build and Push Container'
+        run: |-
+          DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}"
+          docker build -t "${DOCKER_TAG}" ./cc/backend
+          docker push "${DOCKER_TAG}"
+
+      # - name: Create Service declaration   
+      #   run: |-
+      #     export CONTAINER_IMAGE="${DOCKER_TAG}:${{ inputs.ref }}"
+      #     export SERVICE="${SERVICE}"
+      #     export PROJECT_ID="${PROJECT_ID}"
+      #     export REVISION_TAG="${{ inputs.ref }}"
+      #     export CLOUD_RUN_SA="${{ secrets.SERVICE_ACCOUNT_EMAIL }}"
+      #     export ENVIRONMENT="${{ inputs.environment }}"
+      #     envsubst < ./service-yaml/container.yaml > container-${{ inputs.environment }}.yaml
+      #     cat container-${{ inputs.environment }}.yaml
+
+      # Step 4: Deploy to Cloud Run
+      - name: 'Deploy to Cloud Run'
+        uses: 'google-github-actions/deploy-cloudrun@v2'
+        with:
+          service: ${{ env.DEPLOY_SERVICE }}
+          region: ${{ env.DEPLOY_REGION }}
+          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.MODEL_REPO }}/${{ env.SERVICE }}'
+          flags: '--allow-unauthenticated'
+          env_vars: |
+            INSTANCE_UNIX_SOCKET=${{ secrets.INSTANCE_UNIX_SOCKET }}
+            DB_NAME=${{ secrets.DB_NAME }}
+            DB_USER=${{ secrets.DB_USER }}
+            DB_PASS=${{ secrets.DB_PASS }}
